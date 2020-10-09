@@ -1,15 +1,13 @@
 # NovelViewer SAKURA
 
-こちらはWebサイトで利用できる小説ビューワーテンプレートの配布ページです。
+NovelViewer SAKURA はWebサイトで利用できる小説ビューワーテンプレートです。
 
 小説ビューワーは、HTML/CSS/JavaScriptで作成しております。
-
-配布ファイルは下の方にあります。
 
 ## ライセンス
 
 Copyright (c) 2020 Aya Mizushiro
-This software is released under the MIT License, see LICENSE.
+This software is released under the MIT License, see [LICENSE](/LICENSE).
 
 ## 機能
 
@@ -23,7 +21,7 @@ This software is released under the MIT License, see LICENSE.
  * レスポンシブ対応
 
 サンプル  &raquo;
-[NovelViewer SAKURA サンプル]("https://snviewer.sengenzakura.com")
+[NovelViewer SAKURA サンプル](https://snviewer.sengenzakura.com)
 
 ## 動作環境
 
@@ -158,7 +156,7 @@ ___
 | 記法名 | 記法 | 変換後 |
 |---------|------|---------|
 |ルビ |｜漢字《かんじ》 |<ruby>漢字<rp>（</rp><rt>かんじ</rt><rp>）</rp></ruby> |
-|挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |<img alt="" src="https://sengenzakura.com/blog/items/novelviewer-sakura/hanami_inu.png" style="height: 93px; width: 100px;"><br>画像はいらすとやより。|
+|挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |![犬のイラスト（いらすとや）](https://sengenzakura.com/blog/items/novelviewer-sakura/hanami_inu.png?resize=93,100)<br>画像は[いらすとや](https://www.irasutoya.com)より。|
 
 これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを false にしてください。
 
@@ -187,7 +185,7 @@ true の時、Twitter シェアボタンを表示します。
 Twitter シェアボタン  
 ![表示されるTwitter シェアボタン](https://sengenzakura.com/blog/items/novelviewer-sakura/twitter_btn.png)
 
-シェアボタン押下後
+シェアボタン押下後  
 ![シェアボタンを押すと、Twitter公式のツイート画面に遷移する。](https://sengenzakura.com/blog/items/novelviewer-sakura/tweet_display.png)
 
 ### indexList オプション
@@ -226,45 +224,6 @@ ___
 
 次話リンクのサンプル  
 ![次話リンクのサンプル表示](https://sengenzakura.com/blog/items/novelviewer-sakura/next_btn.png?resize=600,)
-
-<span id="custom-style"></span>
-## スタイルのカスタマイズ
-
-スタイルの解説はしませんので、自分で css が読み書きできる上級者向けです。
-
-### 外部スタイルシートで読み込む
-
-使い方１で挿入したスタイルシートの後に、作成したカスタムスタイルシートを読み込んでください。
-
-```html
-<head>
-  ・・・
-  <link rel="stylesheet" href="./path/css/novelviewer.css">
-  <link rel="stylesheet" href="./path/custom.css">
-</head>
-```
-
-### `<style>~</style>`タグを使用する
-
-`</head>`の直前に、`<style>~</style>`タグを挿入してください。
-
-```html
-<head>
-  ・・・
-  <link rel="stylesheet" href="./path/novelviewer.css">
-  <style>
-	[上書きしたいスタイルの指定をここに記述]
-  </style>
-</head>
-```
-
-### style属性で指定する
-
-スタイルを変更したいHTMLタグにstyle属性を追加してください。
-
-```html
-  <h2 id="nvl-section-title" class="section-title" style="color=#ddd; font-size: 14px;">各話タイトル</h2>
-```
 
 ## お問い合わせ
 
