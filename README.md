@@ -1,10 +1,8 @@
 # NovelViewer SAKURA
 
-こちらはWebサイトで利用できる小説ビューワーテンプレートの配布ページです。
+NovelViewer SAKURA はWebサイトで利用できる小説ビューワーテンプレートです。
 
 小説ビューワーは、HTML/CSS/JavaScriptで作成しております。
-
-配布ファイルは下の方にあります。
 
 ## ライセンス
 
