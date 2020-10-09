@@ -227,45 +227,6 @@ ___
 次話リンクのサンプル  
 ![次話リンクのサンプル表示](https://sengenzakura.com/blog/items/novelviewer-sakura/next_btn.png?resize=600,)
 
-<span id="custom-style"></span>
-## スタイルのカスタマイズ
-
-スタイルの解説はしませんので、自分で css が読み書きできる上級者向けです。
-
-### 外部スタイルシートで読み込む
-
-使い方１で挿入したスタイルシートの後に、作成したカスタムスタイルシートを読み込んでください。
-
-```html
-<head>
-  ・・・
-  <link rel="stylesheet" href="./path/css/novelviewer.css">
-  <link rel="stylesheet" href="./path/custom.css">
-</head>
-```
-
-### `<style>~</style>`タグを使用する
-
-`</head>`の直前に、`<style>~</style>`タグを挿入してください。
-
-```html
-<head>
-  ・・・
-  <link rel="stylesheet" href="./path/novelviewer.css">
-  <style>
-	[上書きしたいスタイルの指定をここに記述]
-  </style>
-</head>
-```
-
-### style属性で指定する
-
-スタイルを変更したいHTMLタグにstyle属性を追加してください。
-
-```html
-  <h2 id="nvl-section-title" class="section-title" style="color=#ddd; font-size: 14px;">各話タイトル</h2>
-```
-
 ## お問い合わせ
 
 不具合、使い方でわからないところなど、  
