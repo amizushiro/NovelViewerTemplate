@@ -9,7 +9,7 @@
 ## ライセンス
 
 Copyright (c) 2020 Aya Mizushiro
-This software is released under the MIT License, see LICENSE.
+This software is released under the MIT License, see [LICENSE](/LICENSE).
 
 ## 機能
 
@@ -23,7 +23,7 @@ This software is released under the MIT License, see LICENSE.
  * レスポンシブ対応
 
 サンプル  &raquo;
-[NovelViewer SAKURA サンプル]("https://snviewer.sengenzakura.com")
+[NovelViewer SAKURA サンプル](https://snviewer.sengenzakura.com)
 
 ## 動作環境
 
@@ -158,7 +158,7 @@ ___
 | 記法名 | 記法 | 変換後 |
 |---------|------|---------|
 |ルビ |｜漢字《かんじ》 |<ruby>漢字<rp>（</rp><rt>かんじ</rt><rp>）</rp></ruby> |
-|挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |<img alt="" src="https://sengenzakura.com/blog/items/novelviewer-sakura/hanami_inu.png" style="height: 93px; width: 100px;"><br>画像はいらすとやより。|
+|挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |![犬のイラスト（いらすとや）](https://sengenzakura.com/blog/items/novelviewer-sakura/hanami_inu.png?resize=93,100)<br>画像は[いらすとや](https://www.irasutoya.com)より。|
 
 これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを false にしてください。
 
@@ -187,7 +187,7 @@ true の時、Twitter シェアボタンを表示します。
 Twitter シェアボタン  
 ![表示されるTwitter シェアボタン](https://sengenzakura.com/blog/items/novelviewer-sakura/twitter_btn.png)
 
-シェアボタン押下後
+シェアボタン押下後  
 ![シェアボタンを押すと、Twitter公式のツイート画面に遷移する。](https://sengenzakura.com/blog/items/novelviewer-sakura/tweet_display.png)
 
 ### indexList オプション
