@@ -1,4 +1,4 @@
-# NovelViewer SAKURA
+# NovelViewer Template
 
 NovelViewer Template はWebサイトで利用できる小説ビューワーテンプレートです。
 
