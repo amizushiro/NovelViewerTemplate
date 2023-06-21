@@ -1,4 +1,4 @@
-# NovelViewer SAKURA
+# NovelViewer Template
 
 NovelViewer Template はWebサイトで利用できる小説ビューワーテンプレートです。
 
@@ -21,7 +21,7 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
  * レスポンシブ対応
 
 サンプル  &raquo;
-[NovelViewer Template サンプル](https://snviewer.sengenzakura.com)
+[NovelViewer Template サンプル](https://amizushiro.github.io/NovelViewerTemplate/)
 
 ## 動作環境
 
