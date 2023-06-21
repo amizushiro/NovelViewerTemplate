@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>小説ビューワーSAKURA　サンプル</title>
+  <link rel="stylesheet" href="../css/snviewer.min.css">
+</head>
+<body>
+  
+  <div id="app">
+    <h1 id="nvl-title">
+      注文の多い料理店
+      <span id="nvl-subtitle">宮沢賢治</span>
+    </h1>
+    <h2 id="nvl-section-title">『注文の多い料理店』序</h2>
+    <div id="novel-body">
+わたしたちは、氷砂糖をほしいくらいもたないでも、きれいにすきとおった風をたべ、｜桃《もも》いろのうつくしい朝の日光をのむことができます。
+またわたくしは、はたけや森の中で、ひどいぼろぼろのきものが、いちばんすばらしいびろうどや｜羅紗《らしゃ》や、宝石いりのきものに、かわっているのをたびたび見ました。
+わたくしは、そういうきれいなたべものやきものをすきです。
+これらのわたくしのおはなしは、みんな林や野はらや鉄道線路やらで、｜虹《にじ》や月あかりからもらってきたのです。
+ほんとうに、かしわばやしの青い夕方を、ひとりで通りかかったり、十一月の山の風のなかに、ふるえながら立ったりしますと、もうどうしてもこんな気がしてしかたないのです。ほんとうにもう、どうしてもこんなことがあるようでしかたないということを、わたくしはそのとおり書いたまでです。
+ですから、これらのなかには、あなたのためになるところもあるでしょうし、ただそれっきりのところもあるでしょうが、わたくしには、そのみわけがよくつきません。なんのことだか、わけのわからないところもあるでしょうが、そんなところは、わたくしにもまた、わけがわからないのです。
+けれども、わたくしは、これらのちいさなものがたりの｜幾《いく》きれかが、おしまい、あなたのすきとおったほんとうのたべものになることを、どんなにねがうかわかりません。
+
+　大正十二年十二月二十日
+宮沢賢治
+
+入力：土屋隆
+校正：noriko saito
+2005年1月26日作成
+    </div>
+  </div>
+  <script src=../js/snviewer.min.js></script>
+  <script>
+    const viewerApp = new SNViwerAppClass(
+      {
+        indent: true,
+        convert: true,
+        return: '../index.html',
+        twitter: true,
+        indexList: 
+        {
+          '『注文の多い料理店』序': 'novel1.html',
+          'どんぐりと山猫': 'novel2.html',
+          '狼森と笊森、盗森': 'novel3.html',
+          '注文の多い料理店': 'novel4.html',
+          '烏の北斗七星': 'novel5.html',
+          '水仙月の四日': 'novel6.html',
+          '山男の四月': 'novel7.html',
+          'かしわばやしの夜': 'novel8.html',
+          '月夜のでんしんばしら': 'novel9.html',
+          '鹿踊りのはじまり': 'novel10.html'
+        }
+      });
+  </script>
+</body>
+</html>

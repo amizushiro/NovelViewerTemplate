@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>小説ビューワーSAKURA　サンプル</title>
+  <link rel="stylesheet" href="./css/snviewer.min.css">
+</head>
+<body>
+  
+  <div id="app">
+    <h1 id="nvl-title">
+      シリーズタイトル
+      <span id="nvl-subtitle">章タイトル（任意）</span>
+    </h1>
+    <h2 id="nvl-section-title">各話タイトル</h2>
+    <div id="novel-body">
+本文を
+ここに書きます。
+
+「｜漢字《かんじ》」のようにルビを振ったり。
+挿絵を表示できます。
+[./images/sample.jpg]
+
+オプションに目次リストや、戻り先URLを指定すると、目次メニューや閉じるボタンの表示が追加されます。
+詳細は<a href="https://github.com/amizushiro/NovelViewerTemplate">Github</a>のページをご覧ください。
+    </div>
+  </div>
+  <script src="./js/snviewer.min.js"></script>
+  <script>
+    const viewerApp = new SNViwerAppClass();
+  </script>
+</body>
+</html>
