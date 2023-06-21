@@ -1,6 +1,6 @@
 # NovelViewer SAKURA
 
-NovelViewer SAKURA はWebサイトで利用できる小説ビューワーテンプレートです。
+NovelViewer Template はWebサイトで利用できる小説ビューワーテンプレートです。
 
 小説ビューワーは、HTML/CSS/JavaScriptで作成しております。
 
@@ -21,7 +21,7 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
  * レスポンシブ対応
 
 サンプル  &raquo;
-[NovelViewer SAKURA サンプル](https://snviewer.sengenzakura.com)
+[NovelViewer Template サンプル](https://snviewer.sengenzakura.com)
 
 ## 動作環境
 
@@ -34,6 +34,8 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 ※1：Android 端末を持っていないため、エミュレータでのみ動作確認をしております。
 
 ## 使い方
+
+ファイルは「src」フォルダにあるものを使用してください。
 
 1．`</head>`の直前にスタイルシートを挿入。  
 「`./path/`」は環境に合わせて変更してください。
@@ -142,10 +144,10 @@ ___
 ダッシュを入力した場合、変換時にくっつく様にスタイルが自動であてられます。
 
 変換前  
-![ダッシュ変換前の表示。二つの―の間に隙間ができている。](https://sengenzakura.com/blog/items/novelviewer-sakura/dash_before.png)
+![ダッシュ変換前の表示。二つの―の間に隙間ができている。](./asset/dash_before.png)
 
 変換後  
-![ダッシュ変換後の表示。二つの—の間の隙間が狭まり繋がって見えている。](https://sengenzakura.com/blog/items/novelviewer-sakura/dash_after.png)
+![ダッシュ変換後の表示。二つの—の間の隙間が狭まり繋がって見えている。](./asset/dash_after.png)
 
 ___
 
@@ -156,24 +158,24 @@ ___
 | 記法名 | 記法 | 変換後 |
 |---------|------|---------|
 |ルビ |｜漢字《かんじ》 |<ruby>漢字<rp>（</rp><rt>かんじ</rt><rp>）</rp></ruby> |
-|挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |![犬のイラスト（いらすとや）](https://sengenzakura.com/blog/items/novelviewer-sakura/hanami_inu.png?resize=93,100)<br>画像は[いらすとや](https://www.irasutoya.com)より。|
+|挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |![犬のイラスト（いらすとや）](./asset/hanami_inu.png?resize=93,100)<br>画像は[いらすとや](https://www.irasutoya.com)より。|
 
 これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを false にしてください。
 
 ### return オプション
 
-戻り先URLを指定すると、指定したURLに戻る閉じるボタンが表示されます。  
+戻り先URLを指定すると、指定したURLに戻る「閉じる」ボタンが表示されます。  
 デフォルトでは戻り先がないため、閉じるボタンが非表示となります。
 
 デフォルト表示  
-![デフォルト表示。閉じるボタン非表示。](https://sengenzakura.com/blog/items/novelviewer-sakura/return_btn_hide.png)
+![デフォルト表示。閉じるボタン非表示。](./asset/return_btn_hide.png)
 
 オプションでURLを指定  
-![オプションでURLを指定すると、閉じるボタンが表示される。](https://sengenzakura.com/blog/items/novelviewer-sakura/return_btn_show.png)
+![オプションでURLを指定すると、閉じるボタンが表示される。](./asset/return_btn_show.png)
 
 閉じるボタンは、本文の最後に表示されるものも対象です。
 
-![ページ最後の閉じるボタン](https://sengenzakura.com/blog/items/novelviewer-sakura/return_btn_v2.png?resize=400,)
+![ページ最後の閉じるボタン](./asset/return_btn_v2.png?resize=400,)
 
 ### twitter オプション
 
@@ -183,10 +185,10 @@ true の時、Twitter シェアボタンを表示します。
 ツイート内容はタイトルとURLです。
 
 Twitter シェアボタン  
-![表示されるTwitter シェアボタン](https://sengenzakura.com/blog/items/novelviewer-sakura/twitter_btn.png)
+![表示されるTwitter シェアボタン](./asset/twitter_btn.png)
 
 シェアボタン押下後  
-![シェアボタンを押すと、Twitter公式のツイート画面に遷移する。](https://sengenzakura.com/blog/items/novelviewer-sakura/tweet_display.png)
+![シェアボタンを押すと、Twitter公式のツイート画面に遷移する。](./asset/tweet_display.png)
 
 ### indexList オプション
 
@@ -212,7 +214,7 @@ Twitter シェアボタン
 ```
 
 上記の表示サンプル  
-![目次のサンプル表示](https://sengenzakura.com/blog/items/novelviewer-sakura/index_sample.png)  
+![目次のサンプル表示](./asset/index_sample.png)  
 「▼」がついているのが、現在表示しているページです。urlで判定しているため、打ち間違いにご注意ください。
 
 ___
@@ -220,14 +222,15 @@ ___
 また、目次リストを指定すると、前後の話に移動するリンクが自動で表示されます。
 
 前話リンクのサンプル  
-![前話リンクのサンプル表示](https://sengenzakura.com/blog/items/novelviewer-sakura/prev_btn.png?resize=600,)
+![前話リンクのサンプル表示](./asset/prev_btn.png?resize=600,)
 
 次話リンクのサンプル  
-![次話リンクのサンプル表示](https://sengenzakura.com/blog/items/novelviewer-sakura/next_btn.png?resize=600,)
+![次話リンクのサンプル表示](./asset/next_btn.png?resize=600,)
 
 ## お問い合わせ
 
 不具合、使い方でわからないところなど、  
 何かございましたら、下記連絡先よりご連絡ください。
 
-* [Twitter（@mzsousaku）](https://twitter.com/mzsousaku/)
+* [Mastodon（@amizushiro@sengenzakura.com）](https://mstdn.sengenzakura.com)
+* [Twitter（@sengenzakura）](https://twitter.com/sengenzakura/)
