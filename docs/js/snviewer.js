@@ -1,5 +1,5 @@
 /**
-NovelViewer SAKURA
+NovelViewer テンプレート
 
 Copyright (c)2020 Aya Mizushiro
 

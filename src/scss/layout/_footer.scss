@@ -1,0 +1,201 @@
+@use '../configuration/mixins' as mix;
+
+.sns-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+
+  .sns-link {
+    display: block;
+    border-radius: 3px;
+    font-size: 17px;
+    text-decoration: none;
+    color: #fcfeff;
+
+    line-height: 48px;
+    margin: 0;
+    width: auto;
+
+    &:active {
+      -ms-transform: translateY(2px);
+      -webkit-transform: translateY(2px);
+      transform: translateY(2px);/*下に動く*/
+    }
+  }
+  .btn-twitter {
+    background-color: #1da1f2;
+    @include mix.icon-twitter(#fff);
+    background-size: 1em;
+    letter-spacing: .05em;
+  }
+  .btn-clap {
+    background-color: #d4699a;
+    @include mix.icon-clap(#fff);
+    background-size: 1.2em;
+  }
+  .sns-link:link,
+  .sns-link:hover,
+  .sns-link:active,
+  .sns-link:visited
+  {
+    color: #fcfeff;
+  }
+}
+.next-link,
+.close-link {
+  font-size: 1.5rem;
+  display: block;
+  text-decoration: none;
+}
+.next-link {
+  position: relative;
+  &::before {
+    content: '次話';
+    font-size: 1rem;
+    line-height: 1.5;
+    display: block;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    background-size: 2.5em;
+    background-position: 50% 55%;
+    height: 3em;
+    width: 3em;
+  }
+}
+.close-link {
+  display: block;
+  position: relative;
+
+  &::before {
+    content: '';
+    @include mix.icon-cross(#999);
+    background-size: 1.25em;
+    background-position: center;
+    display: inline-block;
+    position: relative;
+    height: 1.25em;
+    width: 1.25em;
+  }
+}
+/* 表示方向 */
+// 横書き
+.ltr {
+  .novel-footer {
+    padding: 0;
+  }
+  .sns-wrap {
+    margin: 0 auto;
+    padding: 1rem 0;
+    width: 320px;
+  }
+  .sns-list {
+    width: 100%;
+
+    & > li {
+      margin: 0 1.5%;
+      width: 45%;
+    }
+
+    .sns-link {
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+      padding: 0 1em 0 3em;
+
+      &:active {
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 1px rgba(0, 0, 0, 0.19);
+      }
+    }
+
+    .btn-twitter {
+      background-position: 1.5em 47%;
+    }
+    .btn-clap {
+      background-position: .9em 41%;
+    }
+  }
+  .next-link,
+  .close-link {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    text-align: center;
+    @include mix.mq('sp') {
+      padding-bottom: 2rem;
+    }
+  }
+
+  .next-link {
+    &::after {
+      @include mix.icon-arrow-down(#999);
+      margin: .5rem auto 0;
+    }
+  }
+  .close-link {
+    &::before {
+      margin-right: .35em;
+      top: .25em;
+    }
+  }
+}
+// 縦書き
+.rtl {
+  .novel-footer {
+    padding: 0;
+    height: 100%;
+  }
+  .sns-wrap {
+    margin: auto 0;
+    padding: 0 2rem;
+    height: 320px;
+  }
+  .sns-list {
+    height: 100%;
+
+    & > li {
+      margin: 5% 0;
+      height: 40%;
+    }
+
+    .sns-link {
+      box-shadow: inset 2px 0 0 rgba(255,255,255,0.2), 2px 0 2px rgba(0, 0, 0, 0.19);
+      padding: 2.5em 0 .5em 0;
+
+      &:active {
+        box-shadow: inset 1px 0 0 rgba(255,255,255,0.2), 1px 0 1px rgba(0, 0, 0, 0.19);
+      }
+    }
+
+    .btn-twitter {
+      background-position: 50% .9em;
+    }
+    .btn-clap {
+      background-position: 50% .9em;
+    }
+  }
+  .next-link,
+  .close-link {
+    padding-left: 4rem;
+    text-align: center;
+    @include mix.mq('sp') {
+      padding-left: 2rem;
+    }
+  }
+  .next-link {
+    padding-right: 2rem;
+    &::after {
+      @include mix.icon-arrow-left(#999);
+      margin: auto .5rem auto 0;
+    }
+  }
+  .close-link {
+    padding-right: 4rem;
+  }
+  .close-link {
+    &::before {
+      margin-bottom: .5em;
+    }
+  }
+}

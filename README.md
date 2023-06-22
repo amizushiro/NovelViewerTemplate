@@ -1,5 +1,7 @@
 # NovelViewer Template
 
+![](docs/images//thumbnail.png)
+
 NovelViewer Template はWebサイトで利用できる小説ビューワーテンプレートです。
 
 小説ビューワーは、HTML/CSS/JavaScriptで作成しております。
