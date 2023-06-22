@@ -1,6 +1,6 @@
-# NovelViewer Template
+<img src="./docs/images//thumbnail.png" width="640" height="300" />
 
-![](docs/images//thumbnail.png)
+# NovelViewer Template
 
 NovelViewer Template はWebサイトで利用できる小説ビューワーテンプレートです。
 
