@@ -1,0 +1,297 @@
+@use '../configuration/variables' as var;
+@use '../configuration/mixins' as mix;
+
+.novel-wrapper {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* 表示方向 */
+// 横書き
+.ltr {
+  @include mix.writing-ltr;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+}
+// 縦書き
+.rtl {
+  @include mix.writing-rtl;
+  overflow-y: hidden;
+  height: 100%;
+  min-width: calc(100% - 17px);
+}
+/* テーマ */
+// 白
+.paper-white {
+  @include mix.theme-white;
+
+  .prev-link {
+    color: #444;
+    background-color: #ddd;
+    &:hover {
+      background-color: #ededed;
+    }
+  }
+
+  .novel-title, .section-title {
+    color: #555;
+  }
+  .section-title {
+    & > span {
+      background-color: var.$whiteBgColor;
+    }
+
+    &::before {
+      border-color: #ccc;
+    }
+  }
+
+  .novel-footer {
+    background-color: #eee;
+  }
+  .next-link,
+  .close-link {
+    background-color: lighten(#eee, 3);
+    color: #666;
+  }
+
+  .novel-menu,
+  .novel-style-toggle-label,
+  .novel-close-button,
+  #novel-style-toggle:checked + .novel-style-toggle-label,
+  #novel-index-toggle:checked + .novel-index-toggle-label {
+    border-color: #ccc;
+  }
+  .novel-menu,
+  #novel-style-toggle:checked + .novel-style-toggle-label,
+  #novel-index-toggle:checked + .novel-index-toggle-label {
+    background-color: #faf9f5;
+    color: var.$whiteFontColor;
+  }
+
+  .novel-close-button {
+    color: var.$whiteFontColor;
+  }
+
+  .novel-close-button,
+  .novel-style-toggle-label {
+    border-color: #ccc;
+  }
+
+  .radio-label-style {
+    border-color: #d3d3d3;
+  }
+
+  .index-list {
+    & > li {
+      border-color: #ccc;
+      
+      &:first-child {
+        border-color: #ccc; 
+      }
+
+      & > a {
+        &:link {
+          color: #666;
+        }
+        &:visited {
+          color: #898989;
+        }
+      }
+    }
+  }
+}
+// 生成り
+.paper-kinari {
+  @include mix.theme-kinari;
+  
+  .prev-link {
+    color: #444;
+
+    $bgColor: #d6d6ce;
+    background-color: $bgColor;
+    &:hover {
+      background-color: lighten($bgColor, 5);
+    }
+  }
+
+  .novel-title, .section-title {
+    color: #555;
+  }
+  .section-title {
+    & > span {
+      background-color: var.$kinariBgColor;
+    }
+
+    &::before {
+      border-color: #ccc;
+    }
+  }
+
+  .novel-footer {
+    background-color: #d6d6ce;
+  }
+  .next-link,
+  .close-link {
+    background-color: lighten(#d6d6ce, 7);
+    color: #333;
+  }
+
+  .novel-menu,
+  .novel-style-toggle-label,
+  .novel-close-button,
+  #novel-style-toggle:checked + .novel-style-toggle-label,
+  #novel-index-toggle:checked + .novel-index-toggle-label {
+    border-color: #ccc;
+  }
+
+  .novel-menu,
+  #novel-style-toggle:checked + .novel-style-toggle-label,
+  #novel-index-toggle:checked + .novel-index-toggle-label {
+    color: var.$kinariFontColor;
+    background-color: darken(var.$kinariBgColor, 5);
+  }
+  .novel-close-button {
+    color: var.$kinariFontColor;
+  }
+
+  .novel-menu,
+  .novel-close-button,
+  .novel-style-toggle-label,
+  .novel-index-toggle-label {
+    border-color: #ccc;
+  }
+
+  .radio-label-style {
+    border-color: #d3d3d3;
+  }
+
+  .index-list {
+    & > li {
+      border-color: #ccc;
+      
+      &:first-child {
+        border-color: #ccc; 
+      }
+
+      & > a {
+        &:link {
+          color: #666;
+        }
+        &:visited {
+          color: #898989;
+        }
+      }
+    }
+  }
+}
+// 黒
+.paper-dark {
+  @include mix.theme-dark;
+  .prev-link {
+    color: #ccc;
+    background-color: lighten(var.$darkBgColor, 10);
+    &:hover {
+      background-color: lighten(var.$darkBgColor, 15);
+    }
+  }
+
+  .novel-title, .section-title {
+    color: darken(var.$darkFontColor, 10);
+  }
+  .section-title {
+    & > span {
+      background-color: var.$darkBgColor;
+    }
+
+    &::before {
+      border-color: #ccc;
+    }
+  }
+
+  .novel-footer {
+    background-color: lighten(var.$darkBgColor, 10);
+  }
+  .next-link,
+  .close-link {
+    background-color: lighten(var.$darkBgColor, 17);
+    color: #ccc;
+  }
+
+  .novel-menu,
+  .novel-style-toggle-label,
+  .novel-close-button,
+  #novel-style-toggle:checked + .novel-style-toggle-label,
+  #novel-index-toggle:checked + .novel-index-toggle-label {
+    border-color: #666;
+  }
+
+  .novel-menu,
+  #novel-style-toggle:checked + .novel-style-toggle-label,
+  #novel-index-toggle:checked + .novel-index-toggle-label {
+    color: var.$darkFontColor;
+    background-color: lighten(var.$darkBgColor, 5);
+  }
+  .novel-close-button {
+    color: var.$darkFontColor;
+  }
+
+  .radio-label-style {
+    border-color: #666;
+  }
+
+  .index-list {
+    & > li {
+      border-color: #666;
+      
+      &:first-child {
+        border-color: #666; 
+      }  
+
+      & > a {
+        &:link {
+          color: #bbb;
+        }
+        &:visited {
+          color: #666;
+        }
+      }
+    }
+  }
+}
+
+/* スタイル */
+.font-mincho {
+  font-family: var.$fontMincho;
+}
+.font-gothic {
+  font-family: var.$fontGothic!important;
+}
+.fontsize-small {
+  font-size: var.$fontSizeSmall;
+  .dash-rule {
+    letter-spacing: -.1em;
+  }  
+}
+.fontsize-normal {
+  font-size: var.$fontSizeNormal;
+  .dash-rule {
+    letter-spacing: -.11em;
+  }  
+}
+.fontsize-large {
+  font-size: var.$fontSizeLarge;
+  .dash-rule {
+    letter-spacing: -.12em;
+  }  
+}
+.fontsize-oversize {
+  font-size: var.$fontSizeOversize;
+  .dash-rule {
+    letter-spacing: -.13em;
+  }  
+}

@@ -1,0 +1,59 @@
+@use '../configuration/mixins' as mix;
+
+.novel-header {
+  margin: auto;
+}
+.prev-link {
+  font-size: 1rem;
+  text-decoration: none;
+  line-height: 1.5;
+  position: relative;
+  margin: auto;
+  padding: 0 1em;
+  height: 100%;
+  width: 100%;
+
+  &::before {
+    content: '前話';
+    background-size: 1.5em;
+    display: inline-block;
+  }
+}
+/* 表示方向 */
+// 横書き
+.ltr {
+  .novel-header {
+    height: 60px;
+    width: 100%;
+  }
+  .prev-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &::before {
+      @include mix.icon-arrow-up(#999);
+      background-position: left top;
+      padding-left: 1.8em;
+      margin-right: 1em;
+    }
+  }
+}
+// 縦書き
+.rtl {
+  .novel-header {
+    height: 100%;
+    width: 60px;
+  }
+  .prev-link {
+    display: block;
+    padding-top: 3em;
+    &:before {
+      @include mix.icon-arrow-right(#999);
+      background-position: 60% top;
+      padding-top: 1.8em;
+      margin-bottom: 1em;
+    }
+  }
+}
