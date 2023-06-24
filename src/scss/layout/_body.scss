@@ -8,7 +8,15 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overscroll-behavior-y: none;
+  overscroll-behavior-y: none; 
+}
+
+#app {
+  letter-spacing: 1.5px;
+  -webkit-text-size-adjust: 100%; /* 2 */
+  font-feature-settings: "palt" 1;
+  font-kerning: auto;
+
 }
 
 .novel-title, .novel-subtitle {
@@ -41,9 +49,14 @@ body {
 }
 .novel-block {
   & > p {
-    letter-spacing: .1em;
-    line-height: 1.8;
+    // letter-spacing: .1em;
+
+    line-height: 2;
     margin: 0;
+
+    & rt {
+      font-size: .5em;
+    }
   }
 }
 .indent {
@@ -166,6 +179,12 @@ body {
       @include mix.mq('sp') {
         max-width: 320px;
       }
+    }
+
+    & > p >.text-combine {
+      -webkit-text-combine: horizontal;
+      -ms-text-combine-horizontal: all;
+      text-combine-upright: all;
     }
   }
 }

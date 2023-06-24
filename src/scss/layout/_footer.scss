@@ -1,6 +1,8 @@
 @use '../configuration/mixins' as mix;
 
 .sns-list {
+  font-family: sans-serif;
+  letter-spacing: normal;
   margin: 0;
   padding: 0;
   list-style: none;
