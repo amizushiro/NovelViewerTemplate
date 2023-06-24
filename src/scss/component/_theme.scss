@@ -274,24 +274,28 @@
 .fontsize-small {
   font-size: var.$fontSizeSmall;
   .dash-rule {
-    letter-spacing: -.1em;
+    letter-spacing: -.01em;
+    margin-inline-end: .05em;
   }  
 }
 .fontsize-normal {
   font-size: var.$fontSizeNormal;
   .dash-rule {
-    letter-spacing: -.11em;
+    letter-spacing: -.01em;
+    margin-inline-end: .05em;
   }  
 }
 .fontsize-large {
   font-size: var.$fontSizeLarge;
   .dash-rule {
-    letter-spacing: -.12em;
+    letter-spacing: -.01em;
+    margin-inline-end: .05em;
   }  
 }
 .fontsize-oversize {
   font-size: var.$fontSizeOversize;
   .dash-rule {
-    letter-spacing: -.13em;
+    letter-spacing: -.01em;
+    margin-inline-end: .05em;
   }  
 }

@@ -1,5 +1,5 @@
 /**
-NovelViewer テンプレート
+NovelViewer Template
 
 Copyright (c)2020 Aya Mizushiro
 
@@ -371,6 +371,7 @@ class SNViwerAppClass {
     prevText = prevText.replace(/｜/g, '<ruby><rb>');
     prevText = prevText.replace(/《/g, '</rb><rp>（</rp><rt>');
     prevText = prevText.replace(/》/g, '</rt><rp>）</rp></ruby>');
+    prevText = prevText.replace(/(\!\?|\!\!|\?\!|\?\?)/g, '<span class="text-combine">$1</span>');
 
     const lines = prevText.split(/\r\n|\n/);
 
@@ -442,7 +443,6 @@ class SNViwerAppClass {
         line.innerHTML = this.addIndent(line.innerHTML);
       }
       target.replaceChild(target.children[i], line);
-      // lines[i] = line;
     }
 
     return false;
