@@ -6,7 +6,7 @@ Copyright (c)2020 Aya Mizushiro
 This software is released under the MIT License.
 http://opensource.org/licenses/mit-license.php
 */
-class SNViwerAppClass {
+class SNViewerAppClass {
 
   constructor(param) {
     this.indent =  param && "indent" in param ? param.indent : false;

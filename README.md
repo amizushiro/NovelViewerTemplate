@@ -69,7 +69,7 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 ```html
   <script src=./path/js/snviewer.min.js></script>
   <script>
-    const viewerApp = new SNViwerAppClass();
+    const viewerApp = new SNViewerAppClass();
   </script>
 ```
 
@@ -94,7 +94,7 @@ example：
 
 ```html
 <script>
- const viewerApp = new SNViwerAppClass(
+ const viewerApp = new SNViewerAppClass(
     {
       indent: true,
       convert: true,
