@@ -8,11 +8,12 @@ http://opensource.org/licenses/mit-license.php
 */
 class SNViewerAppClass {
 
+  // パラメータ受け取り
   constructor(param) {
     this.indent =  param && "indent" in param ? param.indent : false;
     this.convert = param && "convert" in param ? param.convert : true;
     this.return = param && "return" in param ? param.return : false;
-    this.twitter = param && "twitter" in param ? param.twitter : false;
+    this.useShare = param && "twitter" in param ? param.useShare : false;
     this.indexList = param && "indexList" in param ? param.indexList : false;
     this.touchDevice = this.isTouchDevice();
     this.imageUrls = '';
@@ -21,40 +22,53 @@ class SNViewerAppClass {
     this.init();
   }
 
+  /**
+   * 初期化処理
+   */
   init() {
 
     if (this.fontCheck()) {
+    // Google フォント読み込み設定
       this.insertFont();
     }
 
+    // メニュー作成
     this.createMenu(this.indexList);
 
+    // 小説本文処理
     if (this.indent || this.convert) {
       this.imageLoading = this.createNovelBody();
     }
     
+    // タイトルクラス設定
     if (document.getElementById('nvl-title') != null) {
       document.getElementById('nvl-title').classList.add('novel-title');
     }
 
+    // サブタイトルクラス設定
     if (document.getElementById('nvl-subtitle') != null) {
       document.getElementById('nvl-subtitle').classList.add('novel-subtitle');
     }
 
+    // 節タイトルクラス設定
     if (document.getElementById('nvl-section-title') != null) {
       const sectionTitle = document.getElementById('nvl-section-title');
       sectionTitle.classList.add('section-title');
+      // ボーター装飾追加
       const addNode = this.createSpanEl('', '', sectionTitle.textContent.trim());
       sectionTitle.textContent = '';
       sectionTitle.appendChild(addNode);
     }
 
+    // 小説本文クラス設定
     if (document.getElementById('novel-body') != null) {
       document.getElementById('novel-body').classList.add('novel-block');
     }
 
+    // テーマ設定の読み込み
     this.saveStyleLoad();
     
+    // 表示完了処理
     if(!this.imageLoading) {
       // スクロール方向により初期化
       if (this.writing === 'rtl') {
@@ -64,27 +78,28 @@ class SNViewerAppClass {
     }
   }
 
-  insertLoading() {
-    const loadingWrapEl = this.createDivEl('loading','loader-wrapper');
-    const loadingEl = this.createDivEl('', 'loading');
-    loadingEl.appendChild(this.createSpanEl('', '', 'Loading...'));
-    loadingWrapEl.appendChild(loadingEl);
-    document.body.appendChild(loadingWrapEl);
-  }
-
+  /**
+   * Google Fonts 読み込みリンクの挿入
+   */
   insertFont() {
     const gothicUri = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap';
     const minchoUri = 'https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap';
     const linkEl = document.createElement('link');
     linkEl.rel = "stylesheet";
 
+    // ゴシック体
     linkEl.href = gothicUri;
     document.getElementsByTagName('head')[0].appendChild(linkEl);
 
+    // 明朝体
     linkEl.href = minchoUri;
     document.getElementsByTagName('head')[0].appendChild(linkEl);
   }
 
+  /**
+   * メニューの作成
+   * @param {Array} indexList 目次リスト
+   */
   createMenu(indexList) {
     const menuEl = this.createMenuEl('','');
     if (this.return) { 
@@ -101,7 +116,10 @@ class SNViewerAppClass {
     closeIndex.style.display = "none";
     menuEl.appendChild(closeIndex);
     
+    // スタイルメニュー
     menuEl.appendChild(this.createStyleMenu());
+
+    // 目次
     if (0 < Object.keys(indexList).length) {       
       menuEl.appendChild(this.createIndex(indexList));
     }
@@ -109,6 +127,10 @@ class SNViewerAppClass {
     this.wrapper.appendChild(menuEl);
   }
 
+  /**
+   * スタイルメニューの作成
+   * @returns {Element} スタイルメニューのElement
+   */
   createStyleMenu() {
     const menuDivEl = this.createDivEl('', '');
 
@@ -210,6 +232,11 @@ class SNViewerAppClass {
     return menuDivEl;
   }
 
+  /**
+   * 目次メニューの作成
+   * @param {Array} indexList 目次リスト
+   * @returns {Element} 目次メニューのElement
+   */
   createIndex(indexList) {
     const menuDivEl = this.createDivEl('', '');
 
@@ -223,6 +250,7 @@ class SNViewerAppClass {
 
     contentsEl.appendChild(this.createPEl('', 'index-title', this.getTitle()));
     contentsEl.appendChild(this.createPEl('', 'index-subtitle', this.getSubtitle()));
+    // 目次リスト作成
     contentsEl.appendChild(this.createIndexList(indexList));
 
     menu.appendChild(contentsEl);
@@ -231,7 +259,13 @@ class SNViewerAppClass {
     return menuDivEl;
   }
   
+  /**
+   * 目次リストの作成
+   * @param {Array} indexArray 目次リスト
+   * @returns {Element} 目次リストの Ol Element
+   */
   createIndexList(indexArray) {
+    // 目次リストの作成
     const currentUri = window.location.href;
     const ol = document.createElement('ol');
     ol.setAttribute('id', 'index-list');
@@ -253,10 +287,12 @@ class SNViewerAppClass {
 
     ol.appendChild(fragment);
 
+    // 前話リンク
     if (0 <= (idx - 1)) {
       const key = Object.keys(indexArray)[idx-1];
       this.insertHeader(key, indexArray[key]);
     }
+    // 次話リンク
     if ((idx + 1) < Object.keys(indexArray).length) {
       const key = Object.keys(indexArray)[idx+1];
       this.insertFooter(key, indexArray[key]);
@@ -268,23 +304,36 @@ class SNViewerAppClass {
     return ol;
   }
 
+  /**
+   * ヘッダーリンクの挿入
+   * @param {string} section タイトル
+   * @param {string} url リンク先のURL
+   */
   insertHeader(section, url) {
+    // 小説ヘッダーリンク作成
     const headerEl = document.createElement('header');
     this.addClass(headerEl, 'novel-header');
     headerEl.appendChild(this.createAEl('', 'prev-link', url, section, false));
     this.wrapper.insertBefore(headerEl, this.wrapper.firstChild);
   }
 
+  /**
+   * フッターの挿入
+   * @param {string} section タイトル
+   * @param {string} url リンク先のURL
+   */
   insertFooter(section, url) {
     const footerEl = document.createElement('footer');
     this.addClass(footerEl, 'novel-footer');
 
-    if (this.twitter) {
+    // シェアボタン作成
+    if (this.useShare) {
       const snsEl = this.createDivEl('', 'sns-wrap');
       const ulEl = document.createElement('ul');
       this.addClass(ulEl, 'sns-list');
       const liEl = document.createElement('li');
       const novelUrl = window.location.href;
+
       const param = {
         'url': novelUrl,
         'text': this.getTitle() + " " + this.getSubtitle() + "\n「" + this.getSectionTitle() + "」\n\n",
@@ -302,6 +351,7 @@ class SNViewerAppClass {
       footerEl.appendChild(snsEl);
     }
 
+    // 小説フッターリンク作成
     const nextLink = document.createElement('a');
     if (section) {
       this.addClass(nextLink, 'next-link');
@@ -319,7 +369,11 @@ class SNViewerAppClass {
     this.wrapper.appendChild(footerEl);
   }
 
+  /**
+   * 前回のテーマ情報の復元（初回表示の場合はデフォルトテーマを設定）
+   */
   saveStyleLoad() {
+    // テーマロード
     this.addClass(this.wrapper, 'novel-wrapper');
     // スタイル設定
     let key = this.searchLocalStorage('fontsize');
@@ -343,6 +397,11 @@ class SNViewerAppClass {
     document.getElementById("write-" + this.writing).checked = true;
   }
 
+  /**
+   * LocalStorage キーの存在確認
+   * @param {string} target 取得したい保存情報のキー
+   * @returns {any} 見つかったキー情報。見つからない時は false を返す。
+   */
   searchLocalStorage(target) {
     for (let i = 0; i < localStorage.length; i++) {
       if (localStorage.key(i) === target) {
@@ -352,25 +411,39 @@ class SNViewerAppClass {
     return false;
   }
 
+  /**
+   * 小説本文の作成
+   */
   createNovelBody() {
+    // 小説本文変換処理
     const target = document.getElementById("novel-body");
+    // 自動インデックス有効時の分岐
     if (0 < target.children.length && this.indent) {
+      // 本文にHTMLが含まれる時の処理
       this.convertIndent(target);
     }
     else if (this.convert) {
+      // 本文にHTMLが含まれない時の処理
       this.convertNovelText(target);
     }
   }
 
+  /**
+   * 小説本文の変換
+   * @param {Element} target 小説本文が入っているElement
+   * @returns {boolean} 挿絵読み込みがある場合は true、ない場合は flase を返す。
+   */
   convertNovelText(target) {
     let prevText = target.innerHTML;
 
+    // 記法変換
     prevText = prevText.replace(/――/g, '<span class="dash-rule">―</span>―');
     prevText = prevText.replace(/\|/g, "｜");
     prevText = prevText.replace(/｜/g, '<ruby><rb>');
     prevText = prevText.replace(/《/g, '</rb><rp>（</rp><rt>');
     prevText = prevText.replace(/》/g, '</rt><rp>）</rp></ruby>');
 
+    // 本文を一行ごとに分割・配列化
     const lines = prevText.split(/\r\n|\n/);
 
     let newText = "";
@@ -378,11 +451,13 @@ class SNViewerAppClass {
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
 
+      // 挿絵段落
       if (line.includes('[')) {
         newText += "<p id=\"sashie" + imgidx + "\"></p>";
         imgidx++;
       }
       else {
+        // 文章段落
         if (this.indent) {
           line = this.addIndent(line);
         }
@@ -399,6 +474,11 @@ class SNViewerAppClass {
     return images && 0 < images.length ? true : false;
   }
 
+  /**
+   * 挿絵作成
+   * @param {Array} imagesUri 挿絵URLの配列
+   * @returns {Array} 挿絵 Image Element の配列
+   */
   createImages(imagesUri) {
     this.loadingCount = 0;
     let images = new Array(imagesUri.length);
@@ -406,6 +486,7 @@ class SNViewerAppClass {
       images[i] = new Image();
       images[i].src = imagesUri[i];
       images[i].alt = '';
+      // 挿絵ファイル読み込み完了時の処理
       images[i].addEventListener('load',() => {
         const parent = document.getElementById("sashie" + (i+1));
         if (images[i].width > images[i].height) {
@@ -416,10 +497,12 @@ class SNViewerAppClass {
         }
         const pEl = document.createElement("p");
         pEl.appendChild(images[i]);
+        // ダミー画像との入れ替え
         parent.parentNode.insertBefore(pEl, parent);
         parent.parentNode.removeChild(parent);
 
         this.loadingCount++;
+        // 挿絵の読み込みが完了したら表示完了処理
         if (this.loadingCount === imagesUri.length) {
           // スクロール方向により初期化
           if (this.writing === 'rtl') {
@@ -432,7 +515,12 @@ class SNViewerAppClass {
     return images;
   }
 
+  /**
+   * 自動インデント処理
+   * @param {Element} target 小説本文のElement
+   */
   convertIndent(target) {
+    // 自動インデント処理
     let lines = target.children;
 
     for (let i = 0; i < lines.length; i++) {
@@ -440,14 +528,21 @@ class SNViewerAppClass {
       if (this.CheckTag(line)) {
         line.innerHTML = this.addIndent(line.innerHTML);
       }
+      // テキストを入れ替えるだけ
       target.replaceChild(target.children[i], line);
       // lines[i] = line;
     }
 
-    return false;
+    // return false;
   }
 
+  /**
+   * インデント追加
+   * @param {string} text 本文の一行
+   * @returns {string} インデントを追加した text
+   */
   addIndent(text) {
+    // インデント追加
     text = text.trim();
     if (this.firstCharCheck(text)) {
       text = "　" + text;
@@ -455,9 +550,14 @@ class SNViewerAppClass {
     return text;
   }
 
+  /**
+   * タイトルの取得
+   * @returns {string} タイトル
+   */
   getTitle() {
     const titleNode = document.getElementById('nvl-title');
     let title = '';
+    // ノードがテキストのみ取得
     for(let elem of titleNode.childNodes){
       if(elem.nodeName == "#text"){
         title += elem.nodeValue;
@@ -466,15 +566,30 @@ class SNViewerAppClass {
     return title.trim();
   }
 
+  /**
+   * サブタイトルの取得
+   * @returns {string} サブタイトル
+   */
   getSubtitle() {
     return document.getElementById('nvl-subtitle') ? document.getElementById('nvl-subtitle').textContent.trim() : '';
   }
 
+  /**
+   * 節タイトルの取得
+   * @returns {string} 節タイトル
+   */
   getSectionTitle() {
+    // 節タイトルの取得
     return document.getElementById('nvl-section-title').textContent.trim();
   }
 
+  /**
+   * 挿絵URLリストの作成
+   * @param {Array} lines 一行ごとに分割した本文リスト
+   * @returns {Array} 挿絵のURLリスト
+   */
   getImagesUri(lines) {
+    // 挿絵URLの取得
     let imagesUri = new Array();
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
@@ -485,6 +600,10 @@ class SNViewerAppClass {
     return imagesUri;
   }
 
+  /**
+   * ダミー画像の挿入
+   * @param {Array} images Image Elements の配列
+   */
   insertImageFlags(images) {
     for (let i = 0; i < images.length; i++) {
       let img = document.getElementById('sashie' + (i+1));
@@ -492,13 +611,21 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * ローディング画面の非表示
+   */
   loadingHide() {
+    // ローディング画面の非表示
     const existLoading = !!document.getElementById('loading');
     if (existLoading) {
       document.getElementById("loading").classList.add('hide');
     }
   }
 
+  /**
+   * テーマ切り替え
+   * @param {*} event
+   */
   toggleTheme(event) {
     const newTheme = event.target.value;
     this.changeClass(this.theme, newTheme, "paper-");
@@ -506,6 +633,10 @@ class SNViewerAppClass {
     this.setStrage("theme", newTheme);
   }
 
+  /**
+   * フォント切り替え
+   * @param {*} event
+   */
   toggleFont(event) {
     const newFont = event.target.value;
     this.changeClass(this.font, newFont, "font-");
@@ -513,6 +644,11 @@ class SNViewerAppClass {
     this.setStrage("font", newFont);
   }
 
+  /**
+   * フォントサイズの切り替え
+   * @param {*} event 
+   * @returns 文章方向が横の時は以降の処理を行わない
+   */
   toggleFontsize(event) {
     const prevAreaX = document.body.scrollWidth - document.body.offsetWidth;
     const posX = window.scrollX;
@@ -530,7 +666,10 @@ class SNViewerAppClass {
     const newPosX = posX - offsetX;
     window.scroll(newPosX, 0);
   }
-  
+  /**
+   * 文章方向の切り替え
+   * @param {*} event 
+   */
   toggleWriting(event) {
     const newWriting = event.target.value;
     this.changeClass(this.writing, newWriting, "");
@@ -545,6 +684,10 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * スタイルメニューの表示切り替え
+   * @param {*} event 
+   */
   toggleStyle(event) {
     let flg = event.target.checked;
     if (flg) {
@@ -554,7 +697,12 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * 目次メニューの表示切り替え
+   * @param {*} event 
+   */
   toggleIndex(event) {
+    // 目次メニューの表示切り替え
     const flg = event.target.checked;
     if (flg) {
       document.getElementById("close-index").style.display = "block";
@@ -563,6 +711,12 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * メニューElement作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @returns {Element} メニューのElement
+   */
   createMenuEl(idName, classArray) {
     const menu = document.createElement('menu');
     if (0 < idName.length) {
@@ -574,6 +728,12 @@ class SNViewerAppClass {
     return menu;
   }
   
+  /**
+   * Div Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @returns {Element} Div Element
+   */
   createDivEl(idName, classArray) {
     const div = document.createElement('div');
     if (0 < idName.length) {
@@ -585,6 +745,13 @@ class SNViewerAppClass {
     return div;
   }
 
+  /**
+   * P Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} text 表示するテキスト
+   * @returns {Element} P Element
+   */
   createPEl(idName, classArray, text) {
     const p = document.createElement('p');
     if (0 < idName.length) {
@@ -597,6 +764,13 @@ class SNViewerAppClass {
     return p;
   }
 
+  /**
+   * Span Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} text 表示するテキスト
+   * @returns {Element} Span Element
+   */
   createSpanEl(idName, classArray, text) {
     const span = document.createElement('span');
     if (0 < idName.length) {
@@ -609,6 +783,15 @@ class SNViewerAppClass {
     return span;
   }
   
+  /**
+   * A Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} href リンク先
+   * @param {string} text 表示するテキスト
+   * @param {boolean} blank 別窓表示をするかどうか
+   * @returns {Element} A Element
+   */
   createAEl(idName, classArray, href, text, blank) {
     const a = document.createElement('a');
     if (0 < idName.length) {
@@ -625,6 +808,14 @@ class SNViewerAppClass {
     return a;
   }
 
+  /**
+   * Label Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {*} forName 設定するfor名
+   * @param {*} text 表示するテキスト
+   * @returns {Element} Label Element
+   */
   createLabelEl(idName, classArray, forName, text) {
     const lbl = document.createElement('label');
     if (0 < idName.length) {
@@ -640,6 +831,12 @@ class SNViewerAppClass {
     return lbl;
   }
 
+  /**
+   * Checkbox Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @returns {Element} Checkbox Element
+   */
   craeteCheckboxEl(idName, classArray) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -652,6 +849,14 @@ class SNViewerAppClass {
     return checkbox;
   }
 
+  /**
+   * Radio Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {*} name 設定するname名
+   * @param {*} value valueに設定する値
+   * @returns {Element} Radio Element
+   */
   createRadioEl(idName, classArray, name, value) {
     const radio = document.createElement('input');
     radio.type = 'radio';
@@ -668,6 +873,11 @@ class SNViewerAppClass {
     return radio;
   }
 
+  /**
+   * クラス追加
+   * @param {Element} el classを追加するElement
+   * @param {Array} classArray 追加したいclass配列
+   */
   addClass(el, classArray) {
     if (Array.isArray(classArray)) {
       classArray.forEach(cls => {
@@ -679,11 +889,20 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * テーマクラスの入れ替え
+   * @param {string} prevClass 変更したいclass名
+   * @param {string} newClass 変更後のclass名
+   * @param {string} prefix classの前に追加したいprefix
+   */
   changeClass(prevClass, newClass, prefix) {
     this.wrapper.classList.remove(prefix + prevClass);
     this.wrapper.classList.add(prefix + newClass);
   }
 
+  /**
+   * 縦スクロース位置制御
+   */
   setScrollY() {
     const prevY = window.scrollY;
     const prevX = (document.body.scrollWidth - document.body.offsetWidth) - window.scrollX;
@@ -697,6 +916,9 @@ class SNViewerAppClass {
     window.scroll(0, prevX);
   }
 
+  /**
+   * 横スクロール位置制御
+   */
   setScrollX() {
     const prevY = window.scrollY;
     const prevX = (document.body.scrollWidth - document.body.offsetWidth) - window.scrollX;
@@ -710,6 +932,11 @@ class SNViewerAppClass {
     window.scroll(areaX - prevY, 0);
   }
 
+  /**
+   * LocalStrage のデータ保存・削除
+   * @param {string} name 保存、削除したいデータのキー名
+   * @param {any} item 保存したいデータ
+   */
   setStrage(name, item) {
     if (name && item) {
       localStorage.setItem(name, item);
@@ -719,10 +946,19 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * LocalStrage のデータ取得
+   * @param {string} name 取得したいデータ名
+   * @returns {any} 取得したデータ
+   */
   getStrage(name) {
     return localStorage.getItem(name);
   }
 
+  /**
+   * スクロール制御
+   * @param {*} e event
+   */
   scrollyTox(e) {
     if (e.deltaX === 0) {
       e.stopPropagation()
@@ -738,6 +974,11 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * HTMLタグ判定
+   * @param {string} line 本文の一行
+   * @returns {boolean} IMGタグの場合は false、それ以外は true を返す
+   */
   CheckTag(line) {
     switch (line.tagName)
     {
@@ -750,6 +991,11 @@ class SNViewerAppClass {
     }
   }
 
+  /**
+   * インデント付与対象となるかどうかの確認
+   * @param {string} l チェックしたい1文
+   * @returns {boolean} インデント対象の場合は true を返す
+   */
   firstCharCheck(l) {
     const c1 = l.trim().substring(0, 1);
     if (c1 === "「") {
@@ -768,6 +1014,10 @@ class SNViewerAppClass {
     return true;
   }
 
+  /**
+   * タッチデバイスかの判定用
+   * @returns {boolean} タッチデバイスの場合は true を返す
+   */
   isTouchDevice() {
     var result = false;
     if (window.ontouchstart === null) {
@@ -776,6 +1026,10 @@ class SNViewerAppClass {
     return result;
   }
 
+  /**
+   * Androidかの判定用
+   * @returns {boolean} Androidの場合は true を返す
+   */
   fontCheck() {
     return navigator.userAgent.includes('Android');
   }
