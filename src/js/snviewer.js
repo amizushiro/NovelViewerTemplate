@@ -13,7 +13,7 @@ class SNViewerAppClass {
     this.indent =  param && "indent" in param ? param.indent : false;
     this.convert = param && "convert" in param ? param.convert : true;
     this.return = param && "return" in param ? param.return : false;
-    this.useShare = param && "twitter" in param ? param.useShare : false;
+    this.useShare = param && "useShare" in param ? param.useShare : false;
     this.indexList = param && "indexList" in param ? param.indexList : false;
     this.touchDevice = this.isTouchDevice();
     this.imageUrls = '';
@@ -329,25 +329,70 @@ class SNViewerAppClass {
     // シェアボタン作成
     if (this.useShare) {
       const snsEl = this.createDivEl('', 'sns-wrap');
-      const ulEl = document.createElement('ul');
-      this.addClass(ulEl, 'sns-list');
-      const liEl = document.createElement('li');
-      const novelUrl = window.location.href;
+      const shareDiv = this.createDivEl('', 'sns-btn-wrap');
+      const btnEl = this.createBtnEl('', 'btn-share', 'シェア', 'button');
+      shareDiv.appendChild(btnEl);
+      snsEl.appendChild(shareDiv);
 
-      const param = {
-        'url': novelUrl,
-        'text': this.getTitle() + " " + this.getSubtitle() + "\n「" + this.getSectionTitle() + "」\n\n",
-      };
-      let res = [];
-      for (let key in param) {
-        res[res.length] = encodeURIComponent(key) + "=" + encodeURIComponent(param[key]);
+      // シェアURL取得
+      const shareUrl = window.location.href;
+      
+      // シェアタイトル取得
+      const title = this.getTitle();
+      const shareTitle = title === '' ? '' : title + ' ';
+      
+      // シェアサブタイトル取得
+      const subtitle = this.getSubtitle();
+      const shareSubTitle = subtitle === '' ? '' : subtitle + '\n';
+      
+      // シェアタイトル取得
+      const sectiontitle = '「' + this.getSectionTitle() + '」\n\n';
+
+      // シェアテキスト
+      const shareText = shareTitle + shareSubTitle + sectiontitle
+
+      if (!navigator.canShare) {
+        const snsList = document.createElement('ul');
+        snsList.setAttribute('id', 'sharelist');
+        this.addClass(snsList, ['sns-list', 'hide']);
+
+        const facebook = document.createElement('li');
+        facebook.appendChild(this.createAEl('', ['sns-link', 'btn-facebook'], 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl), 'Facebook', true));
+        snsList.appendChild(facebook);
+
+        const hatebu = document.createElement('li');
+        hatebu.appendChild(this.createAEl('', ['sns-link', 'btn-hatebu'], 'https://b.hatena.ne.jp/entry/' + encodeURIComponent(shareUrl), 'ブックマーク', true));
+        snsList.appendChild(hatebu);
+
+        const line = document.createElement('li');
+        this.addClass(line, ['sm-only']);
+        line.appendChild(this.createAEl('', ['sns-link', 'btn-line'], 'https://line.me/R/msg/text/?' + encodeURIComponent(shareText) + encodeURIComponent(shareUrl), 'LINE', true));
+        snsList.appendChild(line);
+
+        snsEl.appendChild(snsList);
+
+        btnEl.addEventListener('click', () => {
+          if (snsList.classList.contains('hide')) {
+            snsList.classList.remove('hide');
+          }
+          else {
+            snsList.classList.add('hide');
+          }      
+        });
+      } else {
+        // navigator.share() が使用可能
+        btnEl.addEventListener('click', async () => {
+        try {
+            await navigator.share({
+                  text: shareTitle + shareSubTitle + sectiontitle,
+                  url: shareUrl
+              })
+          } catch(err) {
+            console.log(err)
+          }
+        });
       }
-
-      const tweetUrl = 'https://twitter.com/intent/tweet?' + res.join("&");
-      liEl.appendChild(this.createAEl('', ['sns-link', 'btn-twitter'], tweetUrl, 'Twitter', true));
-
-      ulEl.appendChild(liEl);
-      snsEl.appendChild(ulEl);
+      
       footerEl.appendChild(snsEl);
     }
 
@@ -804,6 +849,7 @@ class SNViewerAppClass {
     a.innerText = text;
     if (blank) {
       a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
     }
     return a;
   }
@@ -871,6 +917,32 @@ class SNViewerAppClass {
     }
     radio.value = value;
     return radio;
+  }
+
+  /**
+   * Button Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} text 表示するボタン名
+   * @param {string} type ボタンタイプ(button, submit, reset)
+   */
+  createBtnEl(idName, classArray, text, type) {
+    const button = document.createElement('button');
+    if (0 < idName.length) {
+      button.setAttribute('id', idName);
+    }
+    if (0 < classArray.length) {
+      this.addClass(button, classArray);
+    }
+    if (0 < text.length) {
+      button.innerText = text;
+    }
+    if (type === '') {
+      type = 'button';
+    }
+    button.setAttribute('type', type);
+
+    return button;
   }
 
   /**
