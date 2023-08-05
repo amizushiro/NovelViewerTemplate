@@ -22,7 +22,6 @@ class SNViwerAppClass {
   }
 
   init() {
-    this.insertLoading();
 
     if (this.fontCheck()) {
       this.insertFont();
@@ -494,7 +493,10 @@ class SNViwerAppClass {
   }
 
   loadingHide() {
-    document.getElementById("loading").classList.add('hide');
+    const existLoading = !!document.getElementById('loading');
+    if (existLoading) {
+      document.getElementById("loading").classList.add('hide');
+    }
   }
 
   toggleTheme(event) {

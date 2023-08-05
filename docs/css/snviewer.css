@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /**
 NovelViewer テンプレート
 
@@ -6,7 +7,6 @@ Copyright (c)2020 Aya Mizushiro
 This software is released under the MIT License.
 http://opensource.org/licenses/mit-license.php
 */
-@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -244,8 +244,7 @@ body {
 .sns-list .sns-link:active {
   -ms-transform: translateY(2px);
   -webkit-transform: translateY(2px);
-  transform: translateY(2px);
-  /*下に動く*/
+  transform: translateY(2px); /*下に動く*/
 }
 .sns-list .btn-twitter {
   background-color: #1da1f2;
@@ -345,7 +344,7 @@ body {
 }
 @media screen and (max-width: 767px) {
   .ltr .next-link,
-.ltr .close-link {
+  .ltr .close-link {
     padding-bottom: 2rem;
   }
 }
@@ -395,7 +394,7 @@ body {
 }
 @media screen and (max-width: 767px) {
   .rtl .next-link,
-.rtl .close-link {
+  .rtl .close-link {
     padding-left: 2rem;
   }
 }
@@ -627,8 +626,8 @@ input[type=radio] {
 }
 @media screen and (max-width: 767px) {
   .ltr .novel-close-button,
-.ltr .novel-style-toggle-label,
-.ltr .novel-index-toggle-label {
+  .ltr .novel-style-toggle-label,
+  .ltr .novel-index-toggle-label {
     width: 9.5%;
   }
 }
@@ -653,13 +652,13 @@ input[type=radio] {
 }
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .ltr #novel-style-toggle:checked + .novel-style-toggle-label,
-.ltr #novel-index-toggle:checked + .novel-index-toggle-label {
+  .ltr #novel-index-toggle:checked + .novel-index-toggle-label {
     right: 59.7%;
   }
 }
 @media screen and (max-width: 767px) {
   .ltr #novel-style-toggle:checked + .novel-style-toggle-label,
-.ltr #novel-index-toggle:checked + .novel-index-toggle-label {
+  .ltr #novel-index-toggle:checked + .novel-index-toggle-label {
     right: 79.7%;
   }
 }
@@ -737,7 +736,6 @@ input[type=radio] {
     margin-top: -0.5em;
     margin-bottom: 0.75em;
   }
-
   .ltr .index-list > li > a::after {
     top: -1em;
   }
@@ -796,8 +794,8 @@ input[type=radio] {
 }
 @media screen and (max-width: 767px) {
   .rtl .novel-close-button,
-.rtl .novel-style-toggle-label,
-.rtl .novel-index-toggle-label {
+  .rtl .novel-style-toggle-label,
+  .rtl .novel-index-toggle-label {
     height: 7%;
   }
 }
@@ -822,13 +820,13 @@ input[type=radio] {
 }
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .rtl #novel-style-toggle:checked + .novel-style-toggle-label,
-.rtl #novel-index-toggle:checked + .novel-index-toggle-label {
+  .rtl #novel-index-toggle:checked + .novel-index-toggle-label {
     bottom: 59.7%;
   }
 }
 @media screen and (max-width: 767px) {
   .rtl #novel-style-toggle:checked + .novel-style-toggle-label,
-.rtl #novel-index-toggle:checked + .novel-index-toggle-label {
+  .rtl #novel-index-toggle:checked + .novel-index-toggle-label {
     bottom: 89.7%;
   }
 }
@@ -857,11 +855,11 @@ input[type=radio] {
     flex-wrap: wrap;
   }
   .rtl .menu-item-wrap:nth-child(1),
-.rtl .menu-item-wrap:nth-child(2) {
+  .rtl .menu-item-wrap:nth-child(2) {
     width: 50vw;
   }
   .rtl .menu-item-wrap:nth-child(3),
-.rtl .menu-item-wrap:nth-child(4) {
+  .rtl .menu-item-wrap:nth-child(4) {
     width: 40%;
   }
   .rtl .menu-item-wrap:nth-child(odd) {
@@ -927,7 +925,6 @@ input[type=radio] {
     margin-right: -0.5em;
     margin-left: 0.75em;
   }
-
   .rtl .index-list > li > a::after {
     right: -1em;
   }
@@ -951,9 +948,8 @@ input[type=radio] {
   right: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 100;
-  -webkit-transition: all 1.2s ease;
-  /* 1.2秒でフェードアウト */
+  z-index: 9999;
+  -webkit-transition: all 1.2s ease; /* 1.2秒でフェードアウト */
   transition: all 1.2s ease;
 }
 .loader-wrapper.hide {
@@ -981,12 +977,7 @@ input[type=radio] {
 
 /* Loading テキスト */
 .loading span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 12px;
+  visibility: hidden;
 }
 
 .loading {
@@ -1002,16 +993,6 @@ input[type=radio] {
   border-style: solid;
   border-color: #fff rgba(255, 255, 255, 0.12) rgba(255, 255, 255, 0.12);
   animation: loading1_1 1.5s infinite linear forwards;
-}
-.loading span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 12px;
-}
-.loading span {
-  animation: loading_loading_text 1.5s infinite linear forwards reverse;
 }
 
 @keyframes loading1_1 {
@@ -1290,12 +1271,3 @@ input[type=radio] {
 .fontsize-oversize .dash-rule {
   letter-spacing: -0.13em;
 }
-
-/**
-NovelViewer テンプレート
-
-Copyright (c)2020 Aya Mizushiro
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
