@@ -13,6 +13,7 @@ class SNViewerAppClass {
     this.indent =  param && "indent" in param ? param.indent : false;
     this.convert = param && "convert" in param ? param.convert : true;
     this.return = param && "return" in param ? param.return : false;
+    this.useHtml = param && "useHtml" in param ? param.useHtml : false;
     this.useShare = param && "useShare" in param ? param.useShare : false;
     this.indexList = param && "indexList" in param ? param.indexList : false;
     this.touchDevice = this.isTouchDevice();
@@ -461,15 +462,7 @@ class SNViewerAppClass {
   createNovelBody() {
     // 小説本文変換処理
     const target = document.getElementById("novel-body");
-    // 自動インデックス有効時の分岐
-    if (0 < target.children.length && this.indent) {
-      // 本文にHTMLが含まれる時の処理
-      this.convertIndent(target);
-    }
-    else if (this.convert) {
-      // 本文にHTMLが含まれない時の処理
-      this.convertNovelText(target);
-    }
+    return this.convertNovelText(target);
   }
 
   /**
@@ -486,6 +479,15 @@ class SNViewerAppClass {
     prevText = prevText.replace(/｜/g, '<ruby><rb>');
     prevText = prevText.replace(/《/g, '</rb><rp>（</rp><rt>');
     prevText = prevText.replace(/》/g, '</rt><rp>）</rp></ruby>');
+
+    if (this.useHtml) {
+      // HTML使用時はインデントのみ実行
+      target.innerHTML = prevText;
+      if (this.indent) {
+        this.convertIndent(target);
+      }
+      return false;
+    }
 
     // 本文を一行ごとに分割・配列化
     const lines = prevText.split(/\r\n|\n/);
@@ -515,6 +517,7 @@ class SNViewerAppClass {
     const images = this.createImages(imagesUri);
     // ダミー画像挿入
     this.insertImageFlags(images);
+
     return images && 0 < images.length ? true : false;
   }
 
@@ -532,6 +535,7 @@ class SNViewerAppClass {
       images[i].alt = '';
       // 挿絵ファイル読み込み完了時の処理
       images[i].addEventListener('load',() => {
+
         const parent = document.getElementById("sashie" + (i+1));
         if (images[i].width > images[i].height) {
           images[i].classList.add('dir-v');
@@ -574,10 +578,7 @@ class SNViewerAppClass {
       }
       // テキストを入れ替えるだけ
       target.replaceChild(target.children[i], line);
-      // lines[i] = line;
     }
-
-    // return false;
   }
 
   /**
