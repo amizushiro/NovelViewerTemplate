@@ -27,10 +27,8 @@ class SNViewerAppClass {
    */
   init() {
 
-    if (this.fontCheck()) {
     // Google フォント読み込み設定
-      this.insertFont();
-    }
+    this.insertFont();
 
     // メニュー作成
     this.createMenu(this.indexList);
@@ -84,16 +82,17 @@ class SNViewerAppClass {
   insertFont() {
     const gothicUri = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap';
     const minchoUri = 'https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap';
-    const linkEl = document.createElement('link');
-    linkEl.rel = "stylesheet";
-
+    const minchoLinkEl = document.createElement('link');
+    const gothicLinkEl = document.createElement('link');
+    minchoLinkEl.rel = "stylesheet";
+    gothicLinkEl.rel = "stylesheet";
     // ゴシック体
-    linkEl.href = gothicUri;
-    document.getElementsByTagName('head')[0].appendChild(linkEl);
+    gothicLinkEl.href = gothicUri;
+    document.getElementsByTagName('head')[0].appendChild(gothicLinkEl);
 
     // 明朝体
-    linkEl.href = minchoUri;
-    document.getElementsByTagName('head')[0].appendChild(linkEl);
+    minchoLinkEl.href = minchoUri;
+    document.getElementsByTagName('head')[0].appendChild(minchoLinkEl);
   }
 
   /**
@@ -392,7 +391,7 @@ class SNViewerAppClass {
           }
         });
       }
-      
+
       footerEl.appendChild(snsEl);
     }
 

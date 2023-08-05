@@ -50,7 +50,7 @@ body {
 
 .novel-block > p {
   letter-spacing: 0.1em;
-  line-height: 1.8;
+  line-height: 2;
   margin: 0;
 }
 
@@ -1359,11 +1359,11 @@ input[type=radio] {
 
 /* スタイル */
 .font-mincho {
-  font-family: "游明朝", "Yu Mincho", YuMincho, "Noto Serif JP", "Hiragino Mincho ProN", "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
+  font-family: "Noto Serif JP", "游明朝", "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
 }
 
 .font-gothic {
-  font-family: "游ゴシック", "Yu Gothic", YuGothic, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important;
+  font-family: "Noto Sans JP", "游ゴシック", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important;
 }
 
 .fontsize-small {
