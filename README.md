@@ -47,7 +47,7 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 「`./path/`」は環境に合わせて変更してください。
 
 ```html
-<link rel="stylesheet" href="./path/css/novelviewer.min.css">
+<link rel="stylesheet" href="./path/css/snviewer.min.css">
 ```
 
 2．`<body>`〜`</body>`内に下記を記述。
