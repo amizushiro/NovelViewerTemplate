@@ -90,7 +90,7 @@ srcディレクトリ直下の「`template.html`」がテンプレートにな�
 |-----------------|---------|------|
 | indent | ```true``` / ```false``` | ```true``` の時、行頭一字下げを行います。デフォルトでは false。 |
 | convert | ```true``` / ```false``` | ```true``` の時、記法（後述）の変換を行います。デフォルトでは true。 |
-| useHtml | ```true``` / ```false``` | ``` <div id="nove-body"></div>```内にHTMLタグを記載する場合は ```true``` にしてください。デフォルトでは ```false```。(v1.3で追加) |
+| useHtml | ```true``` / ```false``` | ``` <div id="novel-body"></div>```内にHTMLタグを記載する場合は ```true``` にしてください。デフォルトでは ```false```。(v1.3で追加) |
 | useGoogleFont | ```true``` / ```false``` | Google Font を手動で適用する場合は ```true``` を設定してください。デフォルトは ```false```。(v1.3で追加)  |
 | return | string | 閉じるボタンを押した時に遷移する URL。指定しない場合は閉じるボタンが非表示になります。 |
 | ~~twitter~~ <br>useShare | ```true``` / ```false``` | true の時、シェアボタンを表示します。デフォルトは ```false``` です。(v1.3で変更) |
@@ -121,16 +121,16 @@ example：
 
 ### indent オプション
 
-true の時、冒頭を全角空白で一字下げします。デフォルトは false です。  
+```true``` の時、冒頭を全角空白で一字下げします。デフォルトは ```false``` です。  
 「」、（）、『』は一字下げ対象外です。
 
 自動インデント時は、前後の空白やタブは削除する仕様にしています。  
-空白によって特殊なレイアウトを行っている場合は、このオプションを false にすることをお勧めします。
+空白によって特殊なレイアウトを行っている場合は、このオプションを ```false``` にすることをお勧めします。
 
 ### convert オプション
 
-true の時、本文を自動で段落タグで囲います。  
-デフォルトは true です。
+```true``` の時、本文を自動で段落タグで囲います。  
+デフォルトは ```true``` です。
 
 変換前  
 ```html
@@ -173,13 +173,13 @@ ___
 ver.1.3 にて、タイトル部分もルビ変換に対応しました。  
  ```id="nvl-title"```、```id="nvl-subtitle"```、```id="nvl-section-title"``` を付与したHTMLタグで囲われたテキストが対象です。
 
-これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを false にしてください。
+これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを ```false``` にしてください。
 
 ### useHtml オプション
 
-本テンプレートは、``` <div id="nove-body"></div>```　内にHTMLタグを配置することはあまり想定されていないため、convert オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。
+本テンプレートは、``` <div id="novel-body"></div>```　内にHTMLタグを配置することはあまり想定されていないため、```convert``` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。
 
-``` <div id="nove-body"></div>```　内にHTMLタグを記載する場合はこちらのパラメータを true にしてください。記法の変換のみを行い、段落タグの自動挿入を行わなくなります。
+``` <div id="novel-body"></div>```　内にHTMLタグを記載する場合はこちらのパラメータを ```true``` にしてください。記法の変換のみを行い、段落タグの自動挿入を行わなくなります。
 
 ※注意：```useHtml=true``` に設定すると、挿絵の記法は変換されなくなります。```<img>``` タグでの挿入をお願いいたします。
 
@@ -197,13 +197,13 @@ Google Font の使い方は「Google Font 使い方」で検索してくださ�
 
 #### ２.Google Font の読み込み設定
 
-```template.html``` の ```</head>``` タグの直前に、Google Font の読み込み ```<link>``` を追加します。
+HTMLの ```</head>``` タグの直前に、Google Font の読み込み ```<link>``` を追加します。
 
 ```html
 <head>
   <!-- ...省略... -->
   <!-- 小説ビューワーテンプレートのCSS -->
-  <link rel="stylesheet" href="[your_path]/css/snviewer.min.css">
+  <link rel="stylesheet" href="./path/css/snviewer.min.css">
 
   <!-- Google Fonts -->
   <!-- サンプルは、Noto Sans（ゴシック体）と、Noto Serif（明朝体）を追加しています。 -->
@@ -211,12 +211,12 @@ Google Font の使い方は「Google Font 使い方」で検索してくださ�
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap" rel="stylesheet">
   <!-- /Google Font -->
-  </head>
+</head>
 ```
 
 #### ３.```font-family``` の設定
 
-CSS ファイルを置いているフォルダに ```custom.css```（ファイル名は任意の物を使用してください） を作成し、下記の通りに記載します。
+CSS ファイルを置いているフォルダに ```custom.css``` を作成し、下記の通りに記載します。
 
 ```css
 /*  明朝体表示時に適用される書体 */
@@ -235,13 +235,13 @@ font-family: 'Noto Serif JP', serif;
 
 #### ４.```custom.css``` フォントの読み込み
 
-```template.html``` の ```</head>``` タグの直前に、```custom.css``` の読み込み を追加します。
+HTML の ```</head>``` タグの直前に、```custom.css``` の読み込み を追加します。
 
 ```html
 <head>
   <!-- ...省略... -->
   <!-- 小説ビューワーテンプレートのCSS -->
-  <link rel="stylesheet" href="[your_path]/css/snviewer.min.css">
+  <link rel="stylesheet" href="./path/css/snviewer.min.css">
 
   <!-- Google Fonts -->
   <!-- サンプルは、Noto Sans（ゴシック体）と、Noto Serif（明朝体）を追加しています。 -->
@@ -250,9 +250,9 @@ font-family: 'Noto Serif JP', serif;
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&display=swap" rel="stylesheet">
   <!-- /Google Font -->
 
-  <!-- custom.css の追加（小説ビューワーテンプレートのCSSより後ろに追加） -->
-  <link rel="stylesheet" href="[your_path]/css/custom.css">
-  </head>
+  <!-- font-family の上書き（小説ビューワーテンプレートのCSSより後ろに追加） -->
+  <link rel="stylesheet" href="./path/css/custom.css">
+</head>
 ```
 
 #### ５.```useGoogleFont``` パラメータを有効にする
