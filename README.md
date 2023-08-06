@@ -88,13 +88,13 @@ srcディレクトリ直下の「`template.html`」がテンプレートにな�
 
 | オプション名 | 入力値 | 説明 |
 |-----------------|---------|------|
-| indent | ```true``` / ```false``` | ```true``` の時、行頭一字下げを行います。デフォルトでは false。 |
-| convert | ```true``` / ```false``` | ```true``` の時、記法（後述）の変換を行います。デフォルトでは true。 |
+| indent | ```true``` / ```false``` | ```true``` の時、行頭一字下げを行います。デフォルトでは `false`。 |
+| convert | ```true``` / ```false``` | ```true``` の時、記法（後述）の変換を行います。デフォルトでは `true`。 |
 | useHtml | ```true``` / ```false``` | ``` <div id="novel-body"></div>```内にHTMLタグを記載する場合は ```true``` にしてください。デフォルトでは ```false```。(v1.3で追加) |
 | useGoogleFont | ```true``` / ```false``` | Google Font を手動で適用する場合は ```true``` を設定してください。デフォルトは ```false```。(v1.3で追加)  |
-| return | string | 閉じるボタンを押した時に遷移する URL。指定しない場合は閉じるボタンが非表示になります。 |
-| ~~twitter~~ <br>useShare | ```true``` / ```false``` | true の時、シェアボタンを表示します。デフォルトは ```false``` です。(v1.3で変更) |
-| indexList | string 連想配列 | 目次リスト。目次リストを指定しない場合、目次は生成されません。 |
+| return | ```string``` | 閉じるボタンを押した時に遷移する URL。指定しない場合は閉じるボタンが非表示になります。 |
+| ~~twitter~~ <br>useShare | `true` / `false` | `true` の時、シェアボタンを表示します。デフォルトは `false` です。(v1.3で変更) |
+| indexList | `string` 連想配列 | 目次リスト。目次リストを指定しない場合、目次は生成されません。 |
 
 example：
 
@@ -190,12 +190,12 @@ ver.1.3 にて、タイトル部分もルビ変換に対応しました。
 
 自分で好みの Google Font を優先して適用したい場合は、下記の通りに設定することで、反映することができます。
 
-#### １.Google Font の選択
+#### 1．Google Font の選択
 
 Google Font から適用させたいフォントを選択します。  
 Google Font の使い方は「Google Font 使い方」で検索してください。
 
-#### ２.Google Font の読み込み設定
+#### 2．Google Font の読み込み設定
 
 HTMLの ```</head>``` タグの直前に、Google Font の読み込み ```<link>``` を追加します。
 
@@ -214,14 +214,14 @@ HTMLの ```</head>``` タグの直前に、Google Font の読み込み ```<link>
 </head>
 ```
 
-#### ３.```font-family``` の設定
+#### ３．```font-family``` の設定
 
 CSS ファイルを置いているフォルダに ```custom.css``` を作成し、下記の通りに記載します。
 
 ```css
 /*  明朝体表示時に適用される書体 */
 .snv-font-mincho {
-font-family: 'Noto Serif JP', serif;
+  font-family: 'Noto Serif JP', serif;
 }
 /* ゴシック体表示時に適用される書体 */
 .snv-font-gothic {
@@ -285,8 +285,8 @@ const viewerApp = new SNViewerAppClass(
 
 ### ~~twitter~~ useShare オプション
 
-true の時、シェアボタンを表示します。  
-デフォルトは false です。
+`true` の時、シェアボタンを表示します。  
+デフォルトは `false` です。
 
 シェアボタン  
 ![表示されるTwitter シェアボタン](./asset/share_btn.png)
