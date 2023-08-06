@@ -1,13 +1,13 @@
 @use '../configuration/mixins' as mix;
 
-.sns-wrap {
+.snv-sns-wrap {
   position: relative;
 }
-.sns-btn-wrap {
+.snv-sns-btn-wrap {
   text-align: center;
   width: 100%;
 
-  .btn-share {
+  .snv-btn-share {
     font-family: inherit; /* 1 */
     font-size: 100%; /* 1 */
     margin: 0; /* 2 */  
@@ -31,86 +31,44 @@
     width: 120px;
   }  
 }
-.sns-list {
-  display: -webkit-flex;
-  display: flex;
-
-  background-color: #fff;
+.snv-shareTextWrap {
+  display: block;
+  background-color: #fbfbf8;
   border-radius: 4px;
   box-shadow: 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  box-sizing: border-box;
 
   opacity: 1;
   position: relative;
-  margin-block-start: 2em 0 0 0;
-  padding: 0;
-  padding-block: 0;
+  padding-block: 1rem;
   
   transition: height .3s, opacity .3s;
 
-  & > li {
-    margin-top: 0;
-    list-style: none;
-
-    &.sm-only {
-      display: none;
-      @include mix.mq(sm) {
-        display: block;
-      }
-    }
-  }
-  .sns-link {
-    display: block;
-    box-sizing: border-box;
-    border-radius: 3px;
+  & > p {
     font-size: 15px;
-    text-decoration: none;
-    letter-spacing: 0;
-    color: #fcfeff;
-
-    line-height: 48px;
     margin: 0;
-    width: auto;
-
-    &:active {
-      -ms-transform: translateY(2px);
-      -webkit-transform: translateY(2px);
-      transform: translateY(2px);/*下に動く*/
-    }
-  }
-  .btn-facebook {
-    @include mix.icon-facebook;
-    background-size: 32px;
-    background-color: #1877f2;
-    background-position: center top;
-  }
-  .btn-hatebu {
-    @include mix.icon-hatebu(#008fde, #fcfeff);
-    background-color: #008fde;
-    background-size: 32px;
-    background-position: 52% top;
-  }
-  .btn-line {
-    @include mix.icon-line;
-    background-size: 32px;
-    background-color: #06c755;
-    background-position: center top;
   }
 
-  .sns-link:link,
-  .sns-link:hover,
-  .sns-link:active,
-  .sns-link:visited
-  {
-    color: #fcfeff;
+  & > textarea {
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 1rem;
+    height: 8em;
+    width: 100%
+  }
+
+  & > button {
+
   }
 }
-.next-link,
-.close-link {
+.snv-next-link,
+.snv-close-link {
   font-size: 1.5rem;
   display: block;
   text-decoration: none;
 }
-.next-link {
+.snv-next-link {
   position: relative;
   &::before {
     content: '次話';
@@ -128,7 +86,7 @@
     width: 3em;
   }
 }
-.close-link {
+.snv-close-link {
   display: block;
   position: relative;
 
@@ -145,41 +103,38 @@
 }
 /* 表示方向 */
 // 横書き
-.ltr {
-  .novel-footer {
+.snv-ltr {
+  .snv-novel-footer {
     padding: 0;
   }
-  .sns-wrap {
+  .snv-sns-wrap {
     margin: 0 auto;
     padding: 1rem 0;
     max-width: 480px;
     width: 100%;
   }
-  .sns-list {
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
+  .snv-shareTextWrap {
     margin-left: auto;
     margin-right: auto;
-    padding: 1rem 0;
-    width: 240px;
+    margin-top: 1rem;
+    padding: 1em;
     height: auto;
 
     &::before {
       content: "";
       pointer-events: none;
       clip-path: polygon(0 100%, 50% 0, 100% 100%);
-      background-color: #fff;
+      background-color: #fbfbf8;
       position: absolute;
-      left: auto;
-      right: auto;
+      margin: auto;
+      left: 0;
+      right: 0;
       top: -25px;
       height: 25px;
       width: 30px;
     }
 
-    &.hide {
+    &.snv-hide {
       overflow: hidden;
       height: 0;
       width: 0;
@@ -187,34 +142,9 @@
       margin: 0;
       padding: 0;
     }
-  
-    & > li {
-      margin: 0 1.5%;
-      width: 130px;
-    }
-
-    .sns-link {      
-      box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
-      padding: 0 0 0 34px;
-
-      &:active {
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 1px rgba(0, 0, 0, 0.19);
-      }
-    }
-
-    .btn-facebook {
-      background-position: 2px 26%;
-    }
-    .btn-hatebu {
-      background-position: 5px center;
-    }
-    .btn-line {
-      background-position: 5px center;
-      padding-left: 39px;
-    }
   }
-  .next-link,
-  .close-link {
+  .snv-next-link,
+  .snv-close-link {
     padding-top: 2rem;
     padding-bottom: 4rem;
     text-align: center;
@@ -223,13 +153,13 @@
     }
   }
 
-  .next-link {
+  .snv-next-link {
     &::after {
       @include mix.icon-arrow-down(#999);
       margin: .5rem auto 0;
     }
   }
-  .close-link {
+  .snv-close-link {
     &::before {
       margin-right: .35em;
       top: .25em;
@@ -237,31 +167,31 @@
   }
 }
 // 縦書き
-.rtl {
-  .novel-footer {
+.snv-rtl {
+  .snv-novel-footer {
     padding: 0;
     height: 100%;
   }
-  .sns-wrap {
+  .snv-sns-wrap {
     margin: auto 0;
     padding: 0 2rem;
     height: 320px;
   }
-  .btn-share {
+  .snv-btn-share {
     @include mix.writing-ltr;
   }
-  .sns-list {
-    flex-direction: column;
-    gap: 1rem;
+  .snv-shareTextWrap {
+    @include mix.writing-ltr();
     margin: auto 1rem auto 0;
-    padding: 0 1rem;
+    padding: 1rem;
+    max-width: 320px;
     height: 240px;
 
     &::before {
       content: "";
       pointer-events: none;
       clip-path: polygon(0 0%, 0 100%, 100% 50%);
-      background-color: #fff;
+      background-color: #fbfbf8;
       position: absolute;
       left: auto;
       right: -25px;
@@ -272,7 +202,7 @@
       width: 25px;
     }
 
-    &.hide {
+    &.snv-hide {
       overflow: hidden;
       height: 0;
       width: 0;
@@ -281,46 +211,26 @@
       padding: 0;
     }
 
-    & > li {
-      margin: auto 0;
-      height: 140px;
-    }
-
-    .sns-link {
-      box-shadow: inset 2px 0 0 rgba(255,255,255,0.2), 2px 0 2px rgba(0, 0, 0, 0.19);
-      padding: 2.5em 0 .5em 0;
-
-      &:active {
-        box-shadow: inset 1px 0 0 rgba(255,255,255,0.2), 1px 0 1px rgba(0, 0, 0, 0.19);
-      }
-    }
-
-    .btn-twitter {
-      background-position: 50% .9em;
-    }
-    .btn-clap {
-      background-position: 50% .9em;
-    }
   }
-  .next-link,
-  .close-link {
+  .snv-next-link,
+  .snv-close-link {
     padding-left: 4rem;
     text-align: center;
     @include mix.mq('sp') {
       padding-left: 2rem;
     }
   }
-  .next-link {
+  .snv-next-link {
     padding-right: 2rem;
     &::after {
       @include mix.icon-arrow-left(#999);
       margin: auto .5rem auto 0;
     }
   }
-  .close-link {
+  .snv-close-link {
     padding-right: 4rem;
   }
-  .close-link {
+  .snv-close-link {
     &::before {
       margin-bottom: .5em;
     }

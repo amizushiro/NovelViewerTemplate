@@ -11,19 +11,19 @@ body {
   overscroll-behavior-y: none;
 }
 
-.novel-title, .novel-subtitle {
+.snv-novel-title, .snv-novel-subtitle {
   font-weight: 600;
 }
-.novel-title {
+.snv-novel-title {
   font-size: 2rem;
   margin: 0;
 }
-.novel-subtitle {
+.snv-novel-subtitle {
   display: block;
   font-size: 1.55rem;
   line-height: 1.8;
 }
-.section-title {
+.snv-section-title {
   text-align: center;
   font-size: 1.5rem;
   position: relative;
@@ -39,24 +39,24 @@ body {
     position: absolute;
   }
 }
-.novel-block {
+.snv-novel-block {
   & > p {
     letter-spacing: .1em;
     line-height: 2;
     margin: 0;
   }
 }
-.indent {
+.snv-indent {
   text-indent: 1em;
 }
 /* 表示方向 */
 // 横書き
-.ltr {
-  .novel-title {
+.snv-ltr {
+  .snv-novel-title {
     text-align: center;
     padding: 2rem 0;
   }
-  .section-title {
+  .snv-section-title {
     margin: 0 auto;
     text-align: center;
     max-width: 680px;
@@ -74,7 +74,7 @@ body {
       border-top: 1px solid;
     }
   }
-  .novel-block {
+  .snv-novel-block {
     margin: 3rem auto 8rem;
     max-width: 680px;
     width: 80%;
@@ -111,13 +111,13 @@ body {
   }
 }
 // 縦書き
-.rtl {
-  .novel-title {
+.snv-rtl {
+  .snv-novel-title {
     margin: auto 2em auto .5em;
     height: 80%;
     max-height: 600px;
   }
-  .section-title {
+  .snv-section-title {
     margin: auto 0;
     height: 80%;
     max-height: 600px;
@@ -134,7 +134,7 @@ body {
       border-right: 1px solid;
     }
   }
-  .novel-block {
+  .snv-novel-block {
     margin: auto 3rem auto 8rem;
     max-height: 600px;
     height: 80%;

@@ -1,4 +1,4 @@
-.loader-wrapper {
+.snv-loader-wrapper {
   background-color: gainsboro;
   display: flex;
   justify-content: center;
@@ -28,7 +28,7 @@
  * https://digipress.info/tech/css-spinner-animation-demo/
  */
 /* ローディングアニメーション */
-.loading {
+.snv-loading {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -41,11 +41,11 @@
 }
  
 /* Loading テキスト */
-.loading span {
+.snv-loading span {
   visibility: hidden;
 }
 
-.loading{
+.snv-loading{
   position:absolute;
   top:50%;
   left:50%;
