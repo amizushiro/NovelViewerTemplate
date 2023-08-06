@@ -1312,26 +1312,34 @@ input[type=radio] {
   font-size: 0.9625rem;
 }
 .snv-fontsize-small .snv-dash-rule {
-  letter-spacing: -0.1em;
+  margin-inline-start: 0.1em;
+  margin-inline-end: 0.1em;
+  letter-spacing: 0;
 }
 
 .snv-fontsize-normal {
   font-size: 1.1rem;
 }
 .snv-fontsize-normal .snv-dash-rule {
-  letter-spacing: -0.11em;
+  margin-inline-start: 0.1em;
+  margin-inline-end: 0.1em;
+  letter-spacing: 0;
 }
 
 .snv-fontsize-large {
   font-size: 1.25rem;
 }
 .snv-fontsize-large .snv-dash-rule {
-  letter-spacing: -0.12em;
+  margin-inline-start: 0.1em;
+  margin-inline-end: 0.1em;
+  letter-spacing: 0;
 }
 
 .snv-fontsize-oversize {
   font-size: 1.422rem;
 }
 .snv-fontsize-oversize .snv-dash-rule {
-  letter-spacing: -0.13em;
+  letter-spacing: 0;
+  margin-inline-start: 0.1em;
+  margin-inline-end: 0.1em;
 }

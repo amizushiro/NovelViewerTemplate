@@ -281,24 +281,32 @@
 .snv-fontsize-small {
   font-size: var.$fontSizeSmall;
   .snv-dash-rule {
-    letter-spacing: -.1em;
+    letter-spacing: 0;
+    margin-inline-start: .1em;
+    margin-inline-end: .1em;
   }  
 }
 .snv-fontsize-normal {
   font-size: var.$fontSizeNormal;
   .snv-dash-rule {
-    letter-spacing: -.11em;
+    letter-spacing: 0;
+    margin-inline-start: .1em;
+    margin-inline-end: .1em;
   }  
 }
 .snv-fontsize-large {
   font-size: var.$fontSizeLarge;
   .snv-dash-rule {
-    letter-spacing: -.12em;
+    letter-spacing: 0;
+    margin-inline-start: .1em;
+    margin-inline-end: .1em;
   }  
 }
 .snv-fontsize-oversize {
   font-size: var.$fontSizeOversize;
   .snv-dash-rule {
-    letter-spacing: -.13em;
+    letter-spacing: 0;
+    margin-inline-start: .1em;
+    margin-inline-end: .1em;
   }  
 }

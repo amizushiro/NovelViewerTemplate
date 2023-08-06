@@ -45,22 +45,27 @@ class SNViewerAppClass {
     
     // タイトルクラス設定
     if (document.getElementById('nvl-title') != null) {
-      document.getElementById('nvl-title').classList.add(this.prefix + 'novel-title');
+      const titleNode = document.getElementById('nvl-title');
+      titleNode.classList.add(this.prefix + 'novel-title');
+      titleNode.innerHTML = this.convertNotation(titleNode.innerHTML);
     }
 
     // サブタイトルクラス設定
     if (document.getElementById('nvl-subtitle') != null) {
-      document.getElementById('nvl-subtitle').classList.add(this.prefix + 'novel-subtitle');
+      const subTitleNode = document.getElementById('nvl-subtitle')
+      subTitleNode.classList.add(this.prefix + 'novel-subtitle');
+      subTitleNode.innerHTML = this.convertNotation(subTitleNode.innerHTML);
     }
 
     // 節タイトルクラス設定
     if (document.getElementById('nvl-section-title') != null) {
-      const sectionTitle = document.getElementById('nvl-section-title');
-      sectionTitle.classList.add(this.prefix + 'section-title');
+      const sectionTitleNode = document.getElementById('nvl-section-title');
+      sectionTitleNode.classList.add(this.prefix + 'section-title');
       // ボーター装飾追加
-      const addNode = this.createSpanEl('', '', sectionTitle.textContent.trim());
-      sectionTitle.textContent = '';
-      sectionTitle.appendChild(addNode);
+      const addNode = this.createSpanEl('', '', sectionTitleNode.textContent.trim());
+      sectionTitleNode.textContent = '';
+      sectionTitleNode.appendChild(addNode);
+      sectionTitleNode.innerHTML = this.convertNotation(sectionTitleNode.innerHTML);
     }
 
     // 小説本文クラス設定
@@ -73,11 +78,7 @@ class SNViewerAppClass {
     
     // 表示完了処理
     if(!this.imageLoading) {
-      // スクロール方向により初期化
-      if (this.writing === 'rtl') {
-        this.setScrollX();
-      }
-      this.loadingHide();
+      this.renderingFinish();
     }
   }
 
@@ -491,11 +492,7 @@ class SNViewerAppClass {
     let prevText = target.innerHTML;
 
     // 記法変換
-    prevText = prevText.replace(/――/g, '<span class="${this.prefix}dash-rule">―</span>―');
-    prevText = prevText.replace(/\|/g, "｜");
-    prevText = prevText.replace(/｜/g, '<ruby><rb>');
-    prevText = prevText.replace(/《/g, '</rb><rp>（</rp><rt>');
-    prevText = prevText.replace(/》/g, '</rt><rp>）</rp></ruby>');
+    prevText = this.convertNotation(prevText);
 
     if (this.useHtml) {
       // HTML使用時はインデントのみ実行
@@ -539,6 +536,23 @@ class SNViewerAppClass {
   }
 
   /**
+   * 記法の変換（画像以外）
+   * @param {text} convertText 記法変換したいテキスト
+   * @returns {string} 変換後のテキスト
+   */
+  convertNotation(convertText) {
+    // 記法変換
+    convertText = convertText.replace(/[―|−|–|―|－|ー|─]/g, '—');
+    convertText = convertText.replace(/(—+)/g, '<span class="'+ this.prefix + 'dash-rule">$1</span>');
+    convertText = convertText.replace(/\|/g, "｜");
+    convertText = convertText.replace(/｜/g, '<ruby><rb>');
+    convertText = convertText.replace(/《/g, '</rb><rp>（</rp><rt>');
+    convertText = convertText.replace(/》/g, '</rt><rp>）</rp></ruby>');    
+    
+    return convertText;
+  }
+
+  /**
    * 挿絵作成
    * @param {Array} imagesUri 挿絵URLの配列
    * @returns {Array} 挿絵 Image Element の配列
@@ -569,11 +583,7 @@ class SNViewerAppClass {
         this.loadingCount++;
         // 挿絵の読み込みが完了したら表示完了処理
         if (this.loadingCount === imagesUri.length) {
-          // スクロール方向により初期化
-          if (this.writing === 'rtl') {
-            this.setScrollX();
-          }
-          this.loadingHide();
+          this.renderingFinish();
         }
       });
     }
@@ -671,6 +681,14 @@ class SNViewerAppClass {
       let img = document.getElementById(this.prefix + 'sashie' + (i+1));
       img.appendChild(images[i]);
     }
+  }
+
+  renderingFinish() {
+    // スクロール方向により初期化
+    if (this.writing === 'rtl') {
+      this.setScrollX();
+    }
+    this.loadingHide();    
   }
 
   /**
