@@ -233,13 +233,12 @@ body {
   width: 100%;
 }
 .snv-sns-btn-wrap .snv-btn-share {
-  font-family: inherit; /* 1 */
-  font-size: 100%; /* 1 */
-  margin: 0; /* 2 */
   overflow: visible;
   text-transform: none;
   -webkit-appearance: button;
   border-style: none;
+  font-family: inherit;
+  font-size: 100%;
   color: #fff;
   text-align: left;
   line-height: 42px;
@@ -249,6 +248,7 @@ body {
   background-repeat: no-repeat;
   background-size: 26px;
   background-position: 10px center;
+  margin: 0;
   padding: 0 0 0 48px;
   height: 48px;
   width: 120px;
@@ -256,14 +256,21 @@ body {
 
 .snv-shareTextWrap {
   display: block;
-  background-color: #fbfbf8;
+  background-color: #fbf9f7;
   border-radius: 4px;
   box-shadow: 0 2px 0 rgba(255, 255, 255, 0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
   box-sizing: border-box;
+  text-align: center;
   opacity: 1;
   position: relative;
   padding-block: 1rem;
   transition: height 0.3s, opacity 0.3s;
+}
+.snv-shareTextWrap::after {
+  content: "※動作しない時は手動でコピーをお願いします。";
+  position: relative;
+  display: block;
+  font-size: 0.75em;
 }
 .snv-shareTextWrap > p {
   font-size: 15px;
@@ -274,9 +281,22 @@ body {
   border-radius: 6px;
   font-size: 14px;
   margin-top: 1rem;
+  padding: 0.5em;
   height: 8em;
   width: 100%;
 }
+.snv-shareTextWrap > button {
+  font-family: inherit;
+  font-size: 0.85rem;
+  text-transform: none;
+  -webkit-appearance: button;
+  border: solid 2px #e6e4d9;
+  border-radius: 3px;
+  background-image: linear-gradient(#fff, #f5f8fa);
+  margin: 1em 0 0;
+  padding: 0.8em 1em;
+}
+
 .snv-next-link,
 .snv-close-link {
   font-size: 1.5rem;
@@ -399,7 +419,8 @@ body {
   margin: auto 1rem auto 0;
   padding: 1rem;
   max-width: 320px;
-  height: 240px;
+  height: auto;
+  width: 100%;
 }
 .snv-rtl .snv-shareTextWrap::before {
   content: "";
@@ -1233,6 +1254,13 @@ input[type=radio] {
 }
 .snv-paper-dark .snv-novel-footer {
   background-color: #3c3c3c;
+}
+.snv-paper-dark .snv-btn-share {
+  background-color: #cc8400;
+}
+.snv-paper-dark .snv-shareTextWrap {
+  background-color: #6f6f6f;
+  color: white;
 }
 .snv-paper-dark .snv-next-link,
 .snv-paper-dark .snv-close-link {

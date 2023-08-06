@@ -216,6 +216,13 @@
   .snv-novel-footer {
     background-color: lighten(var.$darkBgColor, 10);
   }
+  .snv-btn-share {
+    background-color: darken(orange, 10);
+  }
+  .snv-shareTextWrap {
+    background-color: lighten(var.$darkBgColor, 30);
+    color: lighten(var.$darkFontColor, 20);
+  }
   .snv-next-link,
   .snv-close-link {
     background-color: lighten(var.$darkBgColor, 17);

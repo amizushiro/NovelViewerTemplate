@@ -15,6 +15,7 @@ class SNViewerAppClass {
     this.return = param && "return" in param ? param.return : false;
     this.useHtml = param && "useHtml" in param ? param.useHtml : false;
     this.useShare = param && "useShare" in param ? param.useShare : false;
+    this.useGoogleFont = param && "useGoogleFont" in param ? param.useGoogleFont: false;
     this.indexList = param && "indexList" in param ? param.indexList : false;
     this.touchDevice = this.isTouchDevice();
     this.imageUrls = '';
@@ -29,8 +30,10 @@ class SNViewerAppClass {
    */
   init() {
 
-    // Google フォント読み込み設定
-    this.insertFont();
+    if (this.isAndroid() && !this.useGoogleFont) {
+      // Andoroid 端末でユーザ個別でGoogleFont読み込みを行わない時、Google フォント読み込む。
+      this.insertFont();
+    }
 
     // メニュー作成
     this.createMenu(this.indexList);
@@ -344,10 +347,10 @@ class SNViewerAppClass {
       
       // シェアサブタイトル取得
       const subtitle = this.getSubtitle();
-      const shareSubTitle = subtitle === '' ? '' : subtitle + '\n';
+      const shareSubTitle = subtitle === '' ? '' : subtitle;
       
       // シェアタイトル取得
-      const sectiontitle = '「' + this.getSectionTitle() + '」\n\n';
+      const sectiontitle = '「' + this.getSectionTitle() + '」\n';
 
       // シェアテキスト
       const shareText = shareTitle + shareSubTitle + sectiontitle
@@ -355,7 +358,8 @@ class SNViewerAppClass {
       if (!navigator.canShare) {
         // navigator.share() が使用不可
         const cpTextWrap = this.createDivEl('shareArea', ['shareTextWrap', 'hide']);
-        const description = this.createPEl('', '', '下記テキストをコピーして、任意のSNSの投稿画面に貼り付けてください。');
+        const description = document.createElement('p')
+        description.innerHTML = '下記テキストをコピーして、<br>SNSの投稿画面に貼り付けてください。';
         cpTextWrap.appendChild(description);
 
         const textarea = document.createElement('textarea');
@@ -461,7 +465,6 @@ class SNViewerAppClass {
    */
   searchLocalStorage(target) {
     const searcheKey = this.prefix + target;
-    console.log(searcheKey);
     for (let i = 0; i < localStorage.length; i++) {
       if (localStorage.key(i) === searcheKey) {
         return localStorage.key(i);
@@ -1110,6 +1113,14 @@ class SNViewerAppClass {
       result = true;
     }  
     return result;
+  }
+
+  /**
+   * Android 端末判定。
+   * @returns {boolean} Android 端末の時は true を返す。それ以外は false。
+   */
+  isAndroid () {
+    return navigator.userAgent.includes('Android');
   }
 
 }
