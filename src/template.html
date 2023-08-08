@@ -10,8 +10,15 @@
   <link rel="stylesheet" href="./css/snviewer.min.css">
 </head>
 <body>
-  
-  <div id="app">
+  <div id="snv-app">
+  <!-- ローディング -->
+    <div id="snv-loading" class="snv-loader-wrapper">
+      <div class="snv-loading">
+        <span>Loading...</span>
+      </div>
+    </div>
+  <!-- /ローディング -->
+
     <h1 id="nvl-title">
       シリーズタイトル
       <span id="nvl-subtitle">章タイトル（任意）</span>
@@ -24,6 +31,8 @@
 「｜漢字《かんじ》」のようにルビを振ったり。
 挿絵を表示できます。
 [./images/sample.jpg]
+※注1：「useHtml=true」の時は、挿絵の変換は行いません。imgタグで埋め込みをお願いします。
+※注2： HTMLタグの階層が深いと自動インデントが効かない場合があります。
 
 一部の縦中横も対応しています!?
 
@@ -33,7 +42,7 @@
   </div>
   <script src="./js/snviewer.min.js"></script>
   <script>
-    const viewerApp = new SNViwerAppClass();
+    const viewerApp = new SNViewerAppClass();
   </script>
 </body>
 </html>

@@ -10,13 +10,18 @@
   <link rel="stylesheet" href="../css/snviewer.min.css">
 </head>
 <body>
-  
-  <div id="app">
+  <div id="snv-app">
+    <div id="snv-loading" class="snv-loader-wrapper">
+      <div class="snv-loading">
+        <span>Loading...</span>
+      </div>
+    </div>
+
     <h1 id="nvl-title">
       注文の多い料理店
       <span id="nvl-subtitle">宮沢賢治</span>
     </h1>
-    <h2 id="nvl-section-title">狼森と笊森、盗森</h2>
+    <h2 id="nvl-section-title">｜狼森《オイノもり》と｜笊森《ざるもり》、｜盗森《ぬすともり》</h2>
     <div id="novel-body">
         　小岩井農場の北に、黒い松の森が四つあります。いちばん南が｜狼森《オイノもり》で、その次が｜笊森《ざるもり》、次は黒坂森、北のはずれは｜盗森《ぬすともり》です。
         　この森がいつごろどうしてできたのか、どうしてこんな｜奇体《きたい》な名前がついたのか、それをいちばんはじめから、すっかり知っているものは、おれ一人だと黒坂森のまんなかの｜巨《おお》きな｜巌《いわ》が、ある日、｜威張《いば》ってこのおはなしをわたくしに聞かせました。
@@ -143,12 +148,13 @@
   </div>
   <script src=../js/snviewer.min.js></script>
   <script>
-    const viewerApp = new SNViwerAppClass(
+    const viewerApp = new SNViewerAppClass(
       {
         indent: true,
         convert: true,
+        useHtml: false,
         return: '../index.html',
-        twitter: false,
+        useShare: false,
         indexList: 
         {
           '注文の多い料理店　序': 'novel1.html',

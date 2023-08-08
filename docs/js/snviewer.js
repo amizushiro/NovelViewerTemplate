@@ -6,88 +6,107 @@ Copyright (c)2020 Aya Mizushiro
 This software is released under the MIT License.
 http://opensource.org/licenses/mit-license.php
 */
-class SNViwerAppClass {
+class SNViewerAppClass {
 
+  // パラメータ受け取り
   constructor(param) {
     this.indent =  param && "indent" in param ? param.indent : false;
     this.convert = param && "convert" in param ? param.convert : true;
     this.return = param && "return" in param ? param.return : false;
-    this.twitter = param && "twitter" in param ? param.twitter : false;
+    this.useHtml = param && "useHtml" in param ? param.useHtml : false;
+    this.useShare = param && "useShare" in param ? param.useShare : false;
+    this.useGoogleFont = param && "useGoogleFont" in param ? param.useGoogleFont: false;
     this.indexList = param && "indexList" in param ? param.indexList : false;
     this.touchDevice = this.isTouchDevice();
     this.imageUrls = '';
     this.imageLoading = false;
-    this.wrapper = document.getElementById("app");
+    this.wrapper = document.getElementById("snv-app");
+    this.prefix = 'snv-';
     this.init();
   }
 
+  /**
+   * 初期化処理
+   */
   init() {
-    this.insertLoading();
 
-    if (this.fontCheck()) {
+    if (this.isAndroid() && !this.useGoogleFont) {
+      // Andoroid 端末でユーザ個別でGoogleFont読み込みを行わない時、Google フォント読み込む。
       this.insertFont();
     }
 
+    // メニュー作成
     this.createMenu(this.indexList);
 
+    // 小説本文処理
     if (this.indent || this.convert) {
       this.imageLoading = this.createNovelBody();
     }
     
+    // タイトルクラス設定
     if (document.getElementById('nvl-title') != null) {
-      document.getElementById('nvl-title').classList.add('novel-title');
+      const titleNode = document.getElementById('nvl-title');
+      titleNode.classList.add(this.prefix + 'novel-title');
+      titleNode.innerHTML = this.convertNotation(titleNode.innerHTML);
     }
 
+    // サブタイトルクラス設定
     if (document.getElementById('nvl-subtitle') != null) {
-      document.getElementById('nvl-subtitle').classList.add('novel-subtitle');
+      const subTitleNode = document.getElementById('nvl-subtitle')
+      subTitleNode.classList.add(this.prefix + 'novel-subtitle');
+      subTitleNode.innerHTML = this.convertNotation(subTitleNode.innerHTML);
     }
 
+    // 節タイトルクラス設定
     if (document.getElementById('nvl-section-title') != null) {
-      const sectionTitle = document.getElementById('nvl-section-title');
-      sectionTitle.classList.add('section-title');
-      const addNode = this.createSpanEl('', '', sectionTitle.textContent.trim());
-      sectionTitle.textContent = '';
-      sectionTitle.appendChild(addNode);
+      const sectionTitleNode = document.getElementById('nvl-section-title');
+      sectionTitleNode.classList.add(this.prefix + 'section-title');
+      // ボーター装飾追加
+      const addNode = this.createSpanEl('', '', sectionTitleNode.textContent.trim());
+      sectionTitleNode.textContent = '';
+      sectionTitleNode.appendChild(addNode);
+      sectionTitleNode.innerHTML = this.convertNotation(sectionTitleNode.innerHTML);
     }
 
+    // 小説本文クラス設定
     if (document.getElementById('novel-body') != null) {
-      document.getElementById('novel-body').classList.add('novel-block');
+      document.getElementById('novel-body').classList.add(this.prefix + 'novel-block');
     }
 
+    // テーマ設定の読み込み
     this.saveStyleLoad();
     
+    // 表示完了処理
     if(!this.imageLoading) {
-      // スクロール方向により初期化
-      if (this.writing === 'rtl') {
-        this.setScrollX();
-      }
-      this.loadingHide();
+      this.renderingFinish();
     }
   }
 
-  insertLoading() {
-    const loadingWrapEl = this.createDivEl('loading','loader-wrapper');
-    const loadingEl = this.createDivEl('', 'loading');
-    loadingEl.appendChild(this.createSpanEl('', '', 'Loading...'));
-    loadingWrapEl.appendChild(loadingEl);
-    document.body.appendChild(loadingWrapEl);
-  }
-
+  /**
+   * Google Fonts 読み込みリンクの挿入
+   */
   insertFont() {
     const gothicUri = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap';
     const minchoUri = 'https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap';
-    const linkEl = document.createElement('link');
-    linkEl.rel = "stylesheet";
+    const minchoLinkEl = document.createElement('link');
+    const gothicLinkEl = document.createElement('link');
+    minchoLinkEl.rel = "stylesheet";
+    gothicLinkEl.rel = "stylesheet";
+    // ゴシック体
+    gothicLinkEl.href = gothicUri;
+    document.getElementsByTagName('head')[0].appendChild(gothicLinkEl);
 
-    linkEl.href = gothicUri;
-    document.getElementsByTagName('head')[0].appendChild(linkEl);
-
-    linkEl.href = minchoUri;
-    document.getElementsByTagName('head')[0].appendChild(linkEl);
+    // 明朝体
+    minchoLinkEl.href = minchoUri;
+    document.getElementsByTagName('head')[0].appendChild(minchoLinkEl);
   }
 
+  /**
+   * メニューの作成
+   * @param {Array} indexList 目次リスト
+   */
   createMenu(indexList) {
-    const menuEl = this.createMenuEl('','');
+    const menuEl = this.createMenuEl('', 'menu-wrapper');
     if (this.return) { 
       menuEl.appendChild(this.createAEl('','novel-close-button', this.return, '×閉じる', false));
     }
@@ -102,7 +121,10 @@ class SNViwerAppClass {
     closeIndex.style.display = "none";
     menuEl.appendChild(closeIndex);
     
+    // スタイルメニュー
     menuEl.appendChild(this.createStyleMenu());
+
+    // 目次
     if (0 < Object.keys(indexList).length) {       
       menuEl.appendChild(this.createIndex(indexList));
     }
@@ -110,6 +132,10 @@ class SNViwerAppClass {
     this.wrapper.appendChild(menuEl);
   }
 
+  /**
+   * スタイルメニューの作成
+   * @returns {Element} スタイルメニューのElement
+   */
   createStyleMenu() {
     const menuDivEl = this.createDivEl('', '');
 
@@ -211,6 +237,11 @@ class SNViwerAppClass {
     return menuDivEl;
   }
 
+  /**
+   * 目次メニューの作成
+   * @param {Array} indexList 目次リスト
+   * @returns {Element} 目次メニューのElement
+   */
   createIndex(indexList) {
     const menuDivEl = this.createDivEl('', '');
 
@@ -224,6 +255,7 @@ class SNViwerAppClass {
 
     contentsEl.appendChild(this.createPEl('', 'index-title', this.getTitle()));
     contentsEl.appendChild(this.createPEl('', 'index-subtitle', this.getSubtitle()));
+    // 目次リスト作成
     contentsEl.appendChild(this.createIndexList(indexList));
 
     menu.appendChild(contentsEl);
@@ -232,10 +264,16 @@ class SNViwerAppClass {
     return menuDivEl;
   }
   
+  /**
+   * 目次リストの作成
+   * @param {Array} indexArray 目次リスト
+   * @returns {Element} 目次リストの Ol Element
+   */
   createIndexList(indexArray) {
+    // 目次リストの作成
     const currentUri = window.location.href;
     const ol = document.createElement('ol');
-    ol.setAttribute('id', 'index-list');
+    ol.setAttribute('id', this.prefix + 'index-list');
     this.addClass(ol, 'index-list');
 
     let idx = -1;
@@ -254,10 +292,12 @@ class SNViwerAppClass {
 
     ol.appendChild(fragment);
 
+    // 前話リンク
     if (0 <= (idx - 1)) {
       const key = Object.keys(indexArray)[idx-1];
       this.insertHeader(key, indexArray[key]);
     }
+    // 次話リンク
     if ((idx + 1) < Object.keys(indexArray).length) {
       const key = Object.keys(indexArray)[idx+1];
       this.insertFooter(key, indexArray[key]);
@@ -269,40 +309,110 @@ class SNViwerAppClass {
     return ol;
   }
 
+  /**
+   * ヘッダーリンクの挿入
+   * @param {string} section タイトル
+   * @param {string} url リンク先のURL
+   */
   insertHeader(section, url) {
+    // 小説ヘッダーリンク作成
     const headerEl = document.createElement('header');
     this.addClass(headerEl, 'novel-header');
     headerEl.appendChild(this.createAEl('', 'prev-link', url, section, false));
     this.wrapper.insertBefore(headerEl, this.wrapper.firstChild);
   }
 
+  /**
+   * フッターの挿入
+   * @param {string} section タイトル
+   * @param {string} url リンク先のURL
+   */
   insertFooter(section, url) {
     const footerEl = document.createElement('footer');
     this.addClass(footerEl, 'novel-footer');
 
-    if (this.twitter) {
+    // シェアボタン作成
+    if (this.useShare) {
       const snsEl = this.createDivEl('', 'sns-wrap');
-      const ulEl = document.createElement('ul');
-      this.addClass(ulEl, 'sns-list');
-      const liEl = document.createElement('li');
-      const novelUrl = window.location.href;
-      const param = {
-        'url': novelUrl,
-        'text': this.getTitle() + " " + this.getSubtitle() + "\n「" + this.getSectionTitle() + "」\n\n",
-      };
-      let res = [];
-      for (let key in param) {
-        res[res.length] = encodeURIComponent(key) + "=" + encodeURIComponent(param[key]);
+      const shareDiv = this.createDivEl('', 'sns-btn-wrap');
+      const btnEl = this.createBtnEl('', 'btn-share', 'シェア', 'button');
+      shareDiv.appendChild(btnEl);
+      snsEl.appendChild(shareDiv);
+
+      // シェアURL取得
+      const shareUrl = window.location.href;
+      
+      // シェアタイトル取得
+      const title = this.getTitle();
+      const shareTitle = title === '' ? '' : title + ' ';
+      
+      // シェアサブタイトル取得
+      const subtitle = this.getSubtitle();
+      const shareSubTitle = subtitle === '' ? '' : subtitle;
+      
+      // シェアタイトル取得
+      const sectiontitle = '「' + this.getSectionTitle() + '」\n';
+
+      // シェアテキスト
+      const shareText = shareTitle + shareSubTitle + sectiontitle
+
+      if (!navigator.canShare) {
+        // navigator.share() が使用不可
+        const cpTextWrap = this.createDivEl('shareArea', ['shareTextWrap', 'hide']);
+        const description = document.createElement('p')
+        description.innerHTML = '下記テキストをコピーして、<br>SNSの投稿画面に貼り付けてください。';
+        cpTextWrap.appendChild(description);
+
+        const textarea = document.createElement('textarea');
+        textarea.value = shareText + shareUrl;
+        textarea.addEventListener('click', (event) => {
+          event.target.select();
+        });
+        cpTextWrap.appendChild(textarea);
+
+        const cpBtn = this.createBtnEl('', 'copyBtn', 'クリップボードにコピー', 'button');
+        cpBtn.addEventListener('click', () => {
+          const copyText = textarea.value;
+          navigator.clipboard.writeText(copyText).then(
+            () => {
+              /* clipboard successfully set */
+              alert('クリップボードにコピーしました！');
+            },
+            () => {
+              /* clipboard write failed */
+              alert('コピーに失敗しました。お手数ですが、手動でコピーをお願いいたします。');
+            },
+          );;
+        });
+        cpTextWrap.appendChild(cpBtn);
+        snsEl.appendChild(cpTextWrap);
+
+        btnEl.addEventListener('click', () => {
+          if (cpTextWrap.classList.contains('snv-hide')) {
+            cpTextWrap.classList.remove('snv-hide');
+          }
+          else {
+            cpTextWrap.classList.add('snv-hide');
+          }
+        });
+      } else {
+        // navigator.share() が使用可能
+        btnEl.addEventListener('click', async () => {
+        try {
+            await navigator.share({
+                  text: shareTitle + shareSubTitle + sectiontitle,
+                  url: shareUrl
+              })
+          } catch(err) {
+            console.log(err)
+          }
+        });
       }
 
-      const tweetUrl = 'https://twitter.com/intent/tweet?' + res.join("&");
-      liEl.appendChild(this.createAEl('', ['sns-link', 'btn-twitter'], tweetUrl, 'Twitter', true));
-
-      ulEl.appendChild(liEl);
-      snsEl.appendChild(ulEl);
       footerEl.appendChild(snsEl);
     }
 
+    // 小説フッターリンク作成
     const nextLink = document.createElement('a');
     if (section) {
       this.addClass(nextLink, 'next-link');
@@ -320,59 +430,80 @@ class SNViwerAppClass {
     this.wrapper.appendChild(footerEl);
   }
 
+  /**
+   * 前回のテーマ情報の復元（初回表示の場合はデフォルトテーマを設定）
+   */
   saveStyleLoad() {
+    // テーマロード
     this.addClass(this.wrapper, 'novel-wrapper');
     // スタイル設定
     let key = this.searchLocalStorage('fontsize');
-    this.fontsize = key !== false ? this.getStrage(key) : 'normal';
+    this.fontsize = key !== false && this.getStrage(key) ? this.getStrage(key) : 'normal';
     this.addClass(this.wrapper, "fontsize-" + this.fontsize);
-    document.getElementById("fontsize-" + this.fontsize).checked = true;
+    document.getElementById(this.prefix + "fontsize-" + this.fontsize).checked = true;
 
     key = this.searchLocalStorage('theme');
-    this.theme = key !== false ? this.getStrage(key) : "white";
+    this.theme = key !== false && this.getStrage(key) ? this.getStrage(key) : "white";
     this.addClass(this.wrapper, 'paper-' + this.theme);
-    document.getElementById("theme-" + this.theme).checked = true;
+    
+    document.getElementById(this.prefix + "theme-" + this.theme).checked = true;
 
     key = this.searchLocalStorage('font');
-    this.font = key !== false ? this.getStrage(key) : "mincho";
+    this.font = key !== false && this.getStrage(key) ? this.getStrage(key) : "mincho";
     this.addClass(this.wrapper, 'font-' + this.font);
-    document.getElementById("font-" + this.font).checked = true;
+    document.getElementById(this.prefix + "font-" + this.font).checked = true;
 
     key = this.searchLocalStorage('writing');
-    this.writing = key !== false ? this.getStrage(key) : "ltr";
+    this.writing = key !== false && this.getStrage(key) ? this.getStrage(key) : "ltr";
     this.addClass(this.wrapper, this.writing);
-    document.getElementById("write-" + this.writing).checked = true;
+    document.getElementById(this.prefix + "write-" + this.writing).checked = true;
   }
 
+  /**
+   * LocalStorage キーの存在確認
+   * @param {string} target 取得したい保存情報のキー
+   * @returns {any} 見つかったキー情報。見つからない時は false を返す。
+   */
   searchLocalStorage(target) {
+    const searcheKey = this.prefix + target;
     for (let i = 0; i < localStorage.length; i++) {
-      if (localStorage.key(i) === target) {
+      if (localStorage.key(i) === searcheKey) {
         return localStorage.key(i);
       }
     }
     return false;
   }
 
+  /**
+   * 小説本文の作成
+   */
   createNovelBody() {
+    // 小説本文変換処理
     const target = document.getElementById("novel-body");
-    if (0 < target.children.length && this.indent) {
-      this.convertIndent(target);
-    }
-    else if (this.convert) {
-      this.convertNovelText(target);
-    }
+    return this.convertNovelText(target);
   }
 
+  /**
+   * 小説本文の変換
+   * @param {Element} target 小説本文が入っているElement
+   * @returns {boolean} 挿絵読み込みがある場合は true、ない場合は flase を返す。
+   */
   convertNovelText(target) {
     let prevText = target.innerHTML;
 
-    prevText = prevText.replace(/――/g, '<span class="dash-rule">―</span>―');
-    prevText = prevText.replace(/\|/g, "｜");
-    prevText = prevText.replace(/｜/g, '<ruby><rb>');
-    prevText = prevText.replace(/《/g, '</rb><rp>（</rp><rt>');
-    prevText = prevText.replace(/》/g, '</rt><rp>）</rp></ruby>');
-    prevText = prevText.replace(/(\!\?|\!\!|\?\!|\?\?)/g, '<span class="text-combine">$1</span>');
+    // 記法変換
+    prevText = this.convertNotation(prevText);
 
+    if (this.useHtml) {
+      // HTML使用時はインデントのみ実行
+      target.innerHTML = prevText;
+      if (this.indent) {
+        this.convertIndent(target);
+      }
+      return false;
+    }
+
+    // 本文を一行ごとに分割・配列化
     const lines = prevText.split(/\r\n|\n/);
 
     let newText = "";
@@ -380,11 +511,13 @@ class SNViwerAppClass {
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
 
+      // 挿絵段落
       if (line.includes('[')) {
-        newText += "<p id=\"sashie" + imgidx + "\"></p>";
+        newText += "<p id=\"" + this.prefix + "sashie" + imgidx + "\"></p>";
         imgidx++;
       }
       else {
+        // 文章段落
         if (this.indent) {
           line = this.addIndent(line);
         }
@@ -398,9 +531,32 @@ class SNViwerAppClass {
     const images = this.createImages(imagesUri);
     // ダミー画像挿入
     this.insertImageFlags(images);
+
     return images && 0 < images.length ? true : false;
   }
 
+  /**
+   * 記法の変換（画像以外）
+   * @param {text} convertText 記法変換したいテキスト
+   * @returns {string} 変換後のテキスト
+   */
+  convertNotation(convertText) {
+    // 記法変換
+    convertText = convertText.replace(/[―|−|–|―|－|ー|─]/g, '—');
+    convertText = convertText.replace(/(—+)/g, '<span class="'+ this.prefix + 'dash-rule">$1</span>');
+    convertText = convertText.replace(/\|/g, "｜");
+    convertText = convertText.replace(/｜/g, '<ruby><rb>');
+    convertText = convertText.replace(/《/g, '</rb><rp>（</rp><rt>');
+    convertText = convertText.replace(/》/g, '</rt><rp>）</rp></ruby>');    
+    
+    return convertText;
+  }
+
+  /**
+   * 挿絵作成
+   * @param {Array} imagesUri 挿絵URLの配列
+   * @returns {Array} 挿絵 Image Element の配列
+   */
   createImages(imagesUri) {
     this.loadingCount = 0;
     let images = new Array(imagesUri.length);
@@ -408,8 +564,10 @@ class SNViwerAppClass {
       images[i] = new Image();
       images[i].src = imagesUri[i];
       images[i].alt = '';
+      // 挿絵ファイル読み込み完了時の処理
       images[i].addEventListener('load',() => {
-        const parent = document.getElementById("sashie" + (i+1));
+
+        const parent = document.getElementById(this.prefix + "sashie" + (i+1));
         if (images[i].width > images[i].height) {
           images[i].classList.add('dir-v');
         }
@@ -418,23 +576,26 @@ class SNViwerAppClass {
         }
         const pEl = document.createElement("p");
         pEl.appendChild(images[i]);
+        // ダミー画像との入れ替え
         parent.parentNode.insertBefore(pEl, parent);
         parent.parentNode.removeChild(parent);
 
         this.loadingCount++;
+        // 挿絵の読み込みが完了したら表示完了処理
         if (this.loadingCount === imagesUri.length) {
-          // スクロール方向により初期化
-          if (this.writing === 'rtl') {
-            this.setScrollX();
-          }
-          this.loadingHide();
+          this.renderingFinish();
         }
       });
     }
     return images;
   }
 
+  /**
+   * 自動インデント処理
+   * @param {Element} target 小説本文のElement
+   */
   convertIndent(target) {
+    // 自動インデント処理
     let lines = target.children;
 
     for (let i = 0; i < lines.length; i++) {
@@ -442,13 +603,18 @@ class SNViwerAppClass {
       if (this.CheckTag(line)) {
         line.innerHTML = this.addIndent(line.innerHTML);
       }
+      // テキストを入れ替えるだけ
       target.replaceChild(target.children[i], line);
     }
-
-    return false;
   }
 
+  /**
+   * インデント追加
+   * @param {string} text 本文の一行
+   * @returns {string} インデントを追加した text
+   */
   addIndent(text) {
+    // インデント追加
     text = text.trim();
     if (this.firstCharCheck(text)) {
       text = "　" + text;
@@ -456,9 +622,14 @@ class SNViwerAppClass {
     return text;
   }
 
+  /**
+   * タイトルの取得
+   * @returns {string} タイトル
+   */
   getTitle() {
     const titleNode = document.getElementById('nvl-title');
     let title = '';
+    // ノードがテキストのみ取得
     for(let elem of titleNode.childNodes){
       if(elem.nodeName == "#text"){
         title += elem.nodeValue;
@@ -467,15 +638,30 @@ class SNViwerAppClass {
     return title.trim();
   }
 
+  /**
+   * サブタイトルの取得
+   * @returns {string} サブタイトル
+   */
   getSubtitle() {
     return document.getElementById('nvl-subtitle') ? document.getElementById('nvl-subtitle').textContent.trim() : '';
   }
 
+  /**
+   * 節タイトルの取得
+   * @returns {string} 節タイトル
+   */
   getSectionTitle() {
+    // 節タイトルの取得
     return document.getElementById('nvl-section-title').textContent.trim();
   }
 
+  /**
+   * 挿絵URLリストの作成
+   * @param {Array} lines 一行ごとに分割した本文リスト
+   * @returns {Array} 挿絵のURLリスト
+   */
   getImagesUri(lines) {
+    // 挿絵URLの取得
     let imagesUri = new Array();
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
@@ -486,17 +672,40 @@ class SNViwerAppClass {
     return imagesUri;
   }
 
+  /**
+   * ダミー画像の挿入
+   * @param {Array} images Image Elements の配列
+   */
   insertImageFlags(images) {
     for (let i = 0; i < images.length; i++) {
-      let img = document.getElementById('sashie' + (i+1));
+      let img = document.getElementById(this.prefix + 'sashie' + (i+1));
       img.appendChild(images[i]);
     }
   }
 
-  loadingHide() {
-    document.getElementById("loading").classList.add('hide');
+  renderingFinish() {
+    // スクロール方向により初期化
+    if (this.writing === 'rtl') {
+      this.setScrollX();
+    }
+    this.loadingHide();    
   }
 
+  /**
+   * ローディング画面の非表示
+   */
+  loadingHide() {
+    // ローディング画面の非表示
+    const existLoading = !!document.getElementById(this.prefix + 'loading');
+    if (existLoading) {
+      document.getElementById(this.prefix + "loading").classList.add('hide');
+    }
+  }
+
+  /**
+   * テーマ切り替え
+   * @param {*} event
+   */
   toggleTheme(event) {
     const newTheme = event.target.value;
     this.changeClass(this.theme, newTheme, "paper-");
@@ -504,6 +713,10 @@ class SNViwerAppClass {
     this.setStrage("theme", newTheme);
   }
 
+  /**
+   * フォント切り替え
+   * @param {*} event
+   */
   toggleFont(event) {
     const newFont = event.target.value;
     this.changeClass(this.font, newFont, "font-");
@@ -511,6 +724,11 @@ class SNViwerAppClass {
     this.setStrage("font", newFont);
   }
 
+  /**
+   * フォントサイズの切り替え
+   * @param {*} event 
+   * @returns 文章方向が横の時は以降の処理を行わない
+   */
   toggleFontsize(event) {
     const prevAreaX = document.body.scrollWidth - document.body.offsetWidth;
     const posX = window.scrollX;
@@ -528,7 +746,10 @@ class SNViwerAppClass {
     const newPosX = posX - offsetX;
     window.scroll(newPosX, 0);
   }
-  
+  /**
+   * 文章方向の切り替え
+   * @param {*} event 
+   */
   toggleWriting(event) {
     const newWriting = event.target.value;
     this.changeClass(this.writing, newWriting, "");
@@ -543,28 +764,43 @@ class SNViwerAppClass {
     }
   }
 
+  /**
+   * スタイルメニューの表示切り替え
+   * @param {*} event 
+   */
   toggleStyle(event) {
     let flg = event.target.checked;
     if (flg) {
-      document.getElementById("close-style").style.display = "block";
+      document.getElementById(this.prefix + "close-style").style.display = "block";
     } else {
-      document.getElementById("close-style").style.display = "none";
+      document.getElementById(this.prefix + "close-style").style.display = "none";
     }
   }
 
+  /**
+   * 目次メニューの表示切り替え
+   * @param {*} event 
+   */
   toggleIndex(event) {
+    // 目次メニューの表示切り替え
     const flg = event.target.checked;
     if (flg) {
-      document.getElementById("close-index").style.display = "block";
+      document.getElementById(this.prefix + "close-index").style.display = "block";
     } else {
-      document.getElementById("close-index").style.display = "none";
+      document.getElementById(this.prefix + "close-index").style.display = "none";
     }
   }
 
+  /**
+   * メニューElement作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @returns {Element} メニューのElement
+   */
   createMenuEl(idName, classArray) {
     const menu = document.createElement('menu');
     if (0 < idName.length) {
-      menu.setAttribute('id', idName);
+      menu.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(menu, classArray);
@@ -572,10 +808,16 @@ class SNViwerAppClass {
     return menu;
   }
   
+  /**
+   * Div Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @returns {Element} Div Element
+   */
   createDivEl(idName, classArray) {
     const div = document.createElement('div');
     if (0 < idName.length) {
-      div.setAttribute('id', idName);
+      div.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(div, classArray);
@@ -583,10 +825,17 @@ class SNViwerAppClass {
     return div;
   }
 
+  /**
+   * P Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} text 表示するテキスト
+   * @returns {Element} P Element
+   */
   createPEl(idName, classArray, text) {
     const p = document.createElement('p');
     if (0 < idName.length) {
-      p.setAttribute('id', idName);
+      p.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(p, classArray);
@@ -595,10 +844,17 @@ class SNViwerAppClass {
     return p;
   }
 
+  /**
+   * Span Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} text 表示するテキスト
+   * @returns {Element} Span Element
+   */
   createSpanEl(idName, classArray, text) {
     const span = document.createElement('span');
     if (0 < idName.length) {
-      span.setAttribute('id', idName);
+      span.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(span, classArray);
@@ -607,10 +863,19 @@ class SNViwerAppClass {
     return span;
   }
   
+  /**
+   * A Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} href リンク先
+   * @param {string} text 表示するテキスト
+   * @param {boolean} blank 別窓表示をするかどうか
+   * @returns {Element} A Element
+   */
   createAEl(idName, classArray, href, text, blank) {
     const a = document.createElement('a');
     if (0 < idName.length) {
-      a.setAttribute('id', idName);
+      a.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(a, classArray);
@@ -619,30 +884,45 @@ class SNViwerAppClass {
     a.innerText = text;
     if (blank) {
       a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
     }
     return a;
   }
 
+  /**
+   * Label Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {*} forName 設定するfor名
+   * @param {*} text 表示するテキスト
+   * @returns {Element} Label Element
+   */
   createLabelEl(idName, classArray, forName, text) {
     const lbl = document.createElement('label');
     if (0 < idName.length) {
-      lbl.setAttribute('id', idName);
+      lbl.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(lbl, classArray);
     }
     if (0 < forName.length) {
-      lbl.setAttribute('for', forName);
+      lbl.setAttribute('for', this.prefix + forName);
     }
     lbl.innerText = text;
     return lbl;
   }
 
+  /**
+   * Checkbox Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @returns {Element} Checkbox Element
+   */
   craeteCheckboxEl(idName, classArray) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     if (0 < idName.length) {
-      checkbox.setAttribute('id', idName);
+      checkbox.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(checkbox, classArray);
@@ -650,11 +930,19 @@ class SNViwerAppClass {
     return checkbox;
   }
 
+  /**
+   * Radio Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {*} name 設定するname名
+   * @param {*} value valueに設定する値
+   * @returns {Element} Radio Element
+   */
   createRadioEl(idName, classArray, name, value) {
     const radio = document.createElement('input');
     radio.type = 'radio';
     if (0 < idName.length) {
-      radio.setAttribute('id', idName);
+      radio.setAttribute('id', this.prefix + idName);
     }
     if (0 < classArray.length) {
       this.addClass(radio, classArray);
@@ -666,22 +954,62 @@ class SNViwerAppClass {
     return radio;
   }
 
+  /**
+   * Button Element 作成用
+   * @param {string} idName 設定するid名
+   * @param {Array} classArray 設定するclass配列
+   * @param {string} text 表示するボタン名
+   * @param {string} type ボタンタイプ(button, submit, reset)
+   */
+  createBtnEl(idName, classArray, text, type) {
+    const button = document.createElement('button');
+    if (0 < idName.length) {
+      button.setAttribute('id', this.prefix + idName);
+    }
+    if (0 < classArray.length) {
+      this.addClass(button, classArray);
+    }
+    if (0 < text.length) {
+      button.innerText = text;
+    }
+    if (type === '') {
+      type = 'button';
+    }
+    button.setAttribute('type', type);
+
+    return button;
+  }
+
+  /**
+   * クラス追加
+   * @param {Element} el classを追加するElement
+   * @param {Array} classArray 追加したいclass配列
+   */
   addClass(el, classArray) {
     if (Array.isArray(classArray)) {
       classArray.forEach(cls => {
-        el.classList.add(cls);
+        el.classList.add(this.prefix + cls);
       });
     }
     else {
-      el.classList.add(classArray);
+      el.classList.add(this.prefix + classArray);
     }
   }
 
-  changeClass(prevClass, newClass, prefix) {
-    this.wrapper.classList.remove(prefix + prevClass);
-    this.wrapper.classList.add(prefix + newClass);
+  /**
+   * テーマクラスの入れ替え
+   * @param {string} prevClass 変更したいclass名
+   * @param {string} newClass 変更後のclass名
+   * @param {string} paramName classの前に追加したいprefix
+   */
+  changeClass(prevClass, newClass, paramName) {
+    this.wrapper.classList.remove(this.prefix + paramName + prevClass);
+    this.wrapper.classList.add(this.prefix + paramName + newClass);
   }
 
+  /**
+   * 縦スクロース位置制御
+   */
   setScrollY() {
     const prevY = window.scrollY;
     const prevX = (document.body.scrollWidth - document.body.offsetWidth) - window.scrollX;
@@ -695,6 +1023,9 @@ class SNViwerAppClass {
     window.scroll(0, prevX);
   }
 
+  /**
+   * 横スクロール位置制御
+   */
   setScrollX() {
     const prevY = window.scrollY;
     const prevX = (document.body.scrollWidth - document.body.offsetWidth) - window.scrollX;
@@ -708,19 +1039,33 @@ class SNViwerAppClass {
     window.scroll(areaX - prevY, 0);
   }
 
+  /**
+   * LocalStrage のデータ保存・削除
+   * @param {string} name 保存、削除したいデータのキー名
+   * @param {any} item 保存したいデータ
+   */
   setStrage(name, item) {
     if (name && item) {
-      localStorage.setItem(name, item);
+      localStorage.setItem(this.prefix + name, item);
     }
     else {
-      localStorage.removeItem(name);
+      localStorage.removeItem(this.prefix + name);
     }
   }
 
+  /**
+   * LocalStrage のデータ取得
+   * @param {string} name 取得したいデータ名
+   * @returns {any} 取得したデータ
+   */
   getStrage(name) {
     return localStorage.getItem(name);
   }
 
+  /**
+   * スクロール制御
+   * @param {*} e event
+   */
   scrollyTox(e) {
     if (e.deltaX === 0) {
       e.stopPropagation()
@@ -728,14 +1073,19 @@ class SNViwerAppClass {
       // noinspection JSSuspiciousNameCombination
       var userAgent = window.navigator.userAgent.toLowerCase();
       if (userAgent.indexOf('firefox') !== -1) {
-        document.getElementById('app').scrollBy(-e.deltaY * 10, 0);
+        document.getElementById('snv-app').scrollBy(-e.deltaY * 10, 0);
       }
       else {
-        document.getElementById('app').scrollBy(-e.deltaY, 0);
+        document.getElementById('snv-app').scrollBy(-e.deltaY, 0);
       }
     }
   }
 
+  /**
+   * HTMLタグ判定
+   * @param {string} line 本文の一行
+   * @returns {boolean} IMGタグの場合は false、それ以外は true を返す
+   */
   CheckTag(line) {
     switch (line.tagName)
     {
@@ -748,6 +1098,11 @@ class SNViwerAppClass {
     }
   }
 
+  /**
+   * インデント付与対象となるかどうかの確認
+   * @param {string} l チェックしたい1文
+   * @returns {boolean} インデント対象の場合は true を返す
+   */
   firstCharCheck(l) {
     const c1 = l.trim().substring(0, 1);
     if (c1 === "「") {
@@ -766,6 +1121,10 @@ class SNViwerAppClass {
     return true;
   }
 
+  /**
+   * タッチデバイスかの判定用
+   * @returns {boolean} タッチデバイスの場合は true を返す
+   */
   isTouchDevice() {
     var result = false;
     if (window.ontouchstart === null) {
@@ -774,7 +1133,12 @@ class SNViwerAppClass {
     return result;
   }
 
-  fontCheck() {
+  /**
+   * Android 端末判定。
+   * @returns {boolean} Android 端末の時は true を返す。それ以外は false。
+   */
+  isAndroid () {
     return navigator.userAgent.includes('Android');
   }
+
 }

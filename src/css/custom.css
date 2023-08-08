@@ -1,0 +1,9 @@
+.snv-font-mincho {
+  font-family: 'Noto Serif JP', serif;
+}
+.snv-font-gothic {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.snv-novel-block>p {
+  line-height: 1.8;
+}

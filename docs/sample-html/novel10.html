@@ -9,8 +9,13 @@
   <link rel="stylesheet" href="../css/snviewer.min.css">
 </head>
 <body>
+  <div id="snv-app">
+    <div id="snv-loading" class="snv-loader-wrapper">
+      <div class="snv-loading">
+        <span>Loading...</span>
+      </div>
+    </div>
 
-  <div id="app">
     <h1 id="nvl-title">
       注文の多い料理店
       <span id="nvl-subtitle">宮沢賢治</span>
@@ -184,12 +189,13 @@
   </div>
   <script src=../js/snviewer.min.js></script>
   <script>
-    const viewerApp = new SNViwerAppClass(
+    const viewerApp = new SNViewerAppClass(
       {
         indent: true,
         convert: true,
+        useHtml: false,
         return: '../index.html',
-        twitter: true,
+        useShare: true,
         indexList: 
         {
           '注文の多い料理店　序': 'novel1.html',

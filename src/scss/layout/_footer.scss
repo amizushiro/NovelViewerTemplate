@@ -1,57 +1,98 @@
 @use '../configuration/mixins' as mix;
 
-.sns-list {
-  font-family: sans-serif;
-  letter-spacing: normal;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  justify-content: center;
+.snv-sns-wrap {
+  position: relative;
+}
+.snv-sns-btn-wrap {
+  text-align: center;
+  width: 100%;
 
-  .sns-link {
-    display: block;
-    border-radius: 3px;
-    font-size: 17px;
-    text-decoration: none;
-    color: #fcfeff;
+  .snv-btn-share {
+    overflow: visible;
+    text-transform: none;
+    -webkit-appearance: button;
+    border-style: none;
 
-    line-height: 48px;
+    font-family: inherit;
+    font-size: 100%;
+    color: #fff;
+    text-align: left;
+    line-height: 42px;
+    border-radius: 5px;
+
+    background-color: orange;
+    @include mix.icon-share('#fff');
+    background-size: 26px;
+    background-position: 10px center;
+  
     margin: 0;
-    width: auto;
+    padding: 0 0 0 48px;
+    height: 48px;
+    width: 120px;
+  }  
+}
+.snv-shareTextWrap {
+  display: block;
+  background-color: #fbf9f7;
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+  box-sizing: border-box;
 
-    &:active {
-      -ms-transform: translateY(2px);
-      -webkit-transform: translateY(2px);
-      transform: translateY(2px);/*下に動く*/
-    }
+  text-align: center;
+
+  opacity: 1;
+  position: relative;
+  padding-block: 1rem;
+  
+  transition: height .3s, opacity .3s;
+
+  &::after {
+    content: '※動作しない時は手動でコピーをお願いします。';
+    position: relative;
+    display: block;
+    font-size: 0.75em;
   }
-  .btn-twitter {
-    background-color: #1da1f2;
-    @include mix.icon-twitter(#fff);
-    background-size: 1em;
-    letter-spacing: .05em;
+
+
+  & > p {
+    font-size: 15px;
+    margin: 0;
   }
-  .btn-clap {
-    background-color: #d4699a;
-    @include mix.icon-clap(#fff);
-    background-size: 1.2em;
+
+  & > textarea {
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 1rem;
+    padding: .5em;
+    height: 8em;
+    width: 100%
   }
-  .sns-link:link,
-  .sns-link:hover,
-  .sns-link:active,
-  .sns-link:visited
-  {
-    color: #fcfeff;
+
+  & > button {
+    font-family: inherit;
+    font-size: 0.85rem;
+    // text-align: center;
+
+    // overflow: visible;
+    text-transform: none;
+    -webkit-appearance: button;
+
+    border: solid 2px #e6e4d9;
+    border-radius: 3px;
+
+    background-image: linear-gradient(#fff,#f5f8fa);
+    margin: 1em 0 0;
+    padding: .8em 1em;
   }
 }
-.next-link,
-.close-link {
+.snv-next-link,
+.snv-close-link {
   font-size: 1.5rem;
   display: block;
   text-decoration: none;
 }
-.next-link {
+.snv-next-link {
   position: relative;
   &::before {
     content: '次話';
@@ -69,7 +110,7 @@
     width: 3em;
   }
 }
-.close-link {
+.snv-close-link {
   display: block;
   position: relative;
 
@@ -86,41 +127,48 @@
 }
 /* 表示方向 */
 // 横書き
-.ltr {
-  .novel-footer {
+.snv-ltr {
+  .snv-novel-footer {
     padding: 0;
   }
-  .sns-wrap {
+  .snv-sns-wrap {
     margin: 0 auto;
     padding: 1rem 0;
-    width: 320px;
-  }
-  .sns-list {
+    max-width: 480px;
     width: 100%;
+  }
+  .snv-shareTextWrap {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    padding: 1em;
+    height: auto;
 
-    & > li {
-      margin: 0 1.5%;
-      width: 45%;
+    &::before {
+      content: "";
+      pointer-events: none;
+      clip-path: polygon(0 100%, 50% 0, 100% 100%);
+      background-color: #fbfbf8;
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: -25px;
+      height: 25px;
+      width: 30px;
     }
 
-    .sns-link {
-      box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
-      padding: 0 1em 0 3em;
-
-      &:active {
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 1px rgba(0, 0, 0, 0.19);
-      }
-    }
-
-    .btn-twitter {
-      background-position: 1.5em 47%;
-    }
-    .btn-clap {
-      background-position: .9em 41%;
+    &.snv-hide {
+      overflow: hidden;
+      height: 0;
+      width: 0;
+      opacity: 0;
+      margin: 0;
+      padding: 0;
     }
   }
-  .next-link,
-  .close-link {
+  .snv-next-link,
+  .snv-close-link {
     padding-top: 2rem;
     padding-bottom: 4rem;
     text-align: center;
@@ -129,13 +177,13 @@
     }
   }
 
-  .next-link {
+  .snv-next-link {
     &::after {
       @include mix.icon-arrow-down(#999);
       margin: .5rem auto 0;
     }
   }
-  .close-link {
+  .snv-close-link {
     &::before {
       margin-right: .35em;
       top: .25em;
@@ -143,59 +191,71 @@
   }
 }
 // 縦書き
-.rtl {
-  .novel-footer {
+.snv-rtl {
+  .snv-novel-footer {
     padding: 0;
     height: 100%;
   }
-  .sns-wrap {
+  .snv-sns-wrap {
     margin: auto 0;
     padding: 0 2rem;
     height: 320px;
   }
-  .sns-list {
-    height: 100%;
-
-    & > li {
-      margin: 5% 0;
-      height: 40%;
-    }
-
-    .sns-link {
-      box-shadow: inset 2px 0 0 rgba(255,255,255,0.2), 2px 0 2px rgba(0, 0, 0, 0.19);
-      padding: 2.5em 0 .5em 0;
-
-      &:active {
-        box-shadow: inset 1px 0 0 rgba(255,255,255,0.2), 1px 0 1px rgba(0, 0, 0, 0.19);
-      }
-    }
-
-    .btn-twitter {
-      background-position: 50% .9em;
-    }
-    .btn-clap {
-      background-position: 50% .9em;
-    }
+  .snv-btn-share {
+    @include mix.writing-ltr;
   }
-  .next-link,
-  .close-link {
+  .snv-shareTextWrap {
+    @include mix.writing-ltr();
+    margin: auto 1rem auto 0;
+    padding: 1rem;
+    max-width: 320px;
+    height: auto;
+    width: 100%;
+
+    &::before {
+      content: "";
+      pointer-events: none;
+      clip-path: polygon(0 0%, 0 100%, 100% 50%);
+      background-color: #fbfbf8;
+      position: absolute;
+      left: auto;
+      right: -25px;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 30px;
+      width: 25px;
+    }
+
+    &.snv-hide {
+      overflow: hidden;
+      height: 0;
+      width: 0;
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+  }
+  .snv-next-link,
+  .snv-close-link {
     padding-left: 4rem;
     text-align: center;
     @include mix.mq('sp') {
       padding-left: 2rem;
     }
   }
-  .next-link {
+  .snv-next-link {
     padding-right: 2rem;
     &::after {
       @include mix.icon-arrow-left(#999);
       margin: auto .5rem auto 0;
     }
   }
-  .close-link {
+  .snv-close-link {
     padding-right: 4rem;
   }
-  .close-link {
+  .snv-close-link {
     &::before {
       margin-bottom: .5em;
     }
