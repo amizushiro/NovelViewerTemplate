@@ -52,8 +52,18 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 
 2．`<body>`〜`</body>`内に下記を記述。
 
+※v1.3で「`<div id="app"></div>`」→「`<div id="snv-app"></div>`」に変更されました。
+
 ```html
-<div id="app">
+<div id="snv-app">
+  <!-- ローディング画面 -->
+  <div id="snv-loading" class="snv-loader-wrapper">
+    <div class="snv-loading">
+      <span>Loading...</span>
+    </div>
+  </div>
+  <!-- /ローディング画面 -->
+
   <h1 id="nvl-title">
     シリーズタイトル
     <span id="nvl-subtitle">章タイトル（任意）</span>
@@ -70,6 +80,8 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 3． `</body>`直前にJavaScriptを挿入。  
 「path」は環境に合わせて変更してください。
 
+※v1.3で「`new SNViwerAppClass()`」→「`new SNViewerAppClass()`」に変更されました。
+
 ```html
   <script src=./path/js/snviewer.min.js></script>
   <script>
@@ -82,17 +94,33 @@ srcディレクトリ直下の「`template.html`」がテンプレートにな�
 
 基本的にはサンプルを参考に、テンプレートを使い回していただければ問題ないと思います。
 
+---
+
+表示フォントは下記の優先度となっております。
+
+<dl>
+  <dt>ゴシック体</dt>
+  <dd>BIZ UDゴシック &gt; ヒラギノ角ゴシック &gt; 游ゴシック &gt; その他ゴシック体 </dd>
+  <dt>明朝体</dt>
+  <dd>BIZ UD明朝 &gt; ヒラギノ明朝 &gt; 游明朝 &gt; その他明朝体</dd>
+</dl>
+
+各OSでプリインストールされているフォントが異なるため、各OSで表示されるフォントは異なります。
+
+表示するフォントを統一したい場合は、テンプレートに Google Font を追加するなどしてください。（設定方法はuseGoogleFontの項目にて説明）  
+※GoogleFontを追加すると、ページの表示までに時間がかかる場合がございます。
+
 ##  オプション一覧
 
 呼び出し時の引数にオプションを指定することで、いくつかの機能を有効／無効にできます。
 
 | オプション名 | 入力値 | 説明 |
 |-----------------|---------|------|
-| indent | ```true``` / ```false``` | ```true``` の時、行頭一字下げを行います。デフォルトでは `false`。 |
-| convert | ```true``` / ```false``` | ```true``` の時、記法（後述）の変換を行います。デフォルトでは `true`。 |
-| useHtml | ```true``` / ```false``` | ``` <div id="novel-body"></div>```内にHTMLタグを記載する場合は ```true``` にしてください。デフォルトでは ```false```。(v1.3で追加) |
-| useGoogleFont | ```true``` / ```false``` | Google Font を手動で適用する場合は ```true``` を設定してください。デフォルトは ```false```。(v1.3で追加)  |
-| return | ```string``` | 閉じるボタンを押した時に遷移する URL。指定しない場合は閉じるボタンが非表示になります。 |
+| indent | `true` / `false` | `true` の時、行頭一字下げを行います。デフォルトでは `false`。 |
+| convert | `true` / `false` | `true` の時、記法（後述）の変換を行います。デフォルトでは `true`。 |
+| useHtml | `true` / `false` | `<div id="novel-body"></div>`内にHTMLタグを記載する場合は `true` にしてください。デフォルトでは `false`。(v1.3で追加) |
+| useGoogleFont | `true` / `false` | Google Font を手動で適用する場合は `true` を設定してください。デフォルトは `false`。(v1.3で追加)  |
+| return | `string` | 閉じるボタンを押した時に遷移する URL。指定しない場合は閉じるボタンが非表示になります。 |
 | ~~twitter~~ <br>useShare | `true` / `false` | `true` の時、シェアボタンを表示します。デフォルトは `false` です。(v1.3で変更) |
 | indexList | `string` 連想配列 | 目次リスト。目次リストを指定しない場合、目次は生成されません。 |
 
@@ -121,16 +149,16 @@ example：
 
 ### indent オプション
 
-```true``` の時、冒頭を全角空白で一字下げします。デフォルトは ```false``` です。  
+`true` の時、冒頭を全角空白で一字下げします。デフォルトは `false` です。  
 「」、（）、『』は一字下げ対象外です。
 
 自動インデント時は、前後の空白やタブは削除する仕様にしています。  
-空白によって特殊なレイアウトを行っている場合は、このオプションを ```false``` にすることをお勧めします。
+空白によって特殊なレイアウトを行っている場合は、このオプションを `false` にすることをお勧めします。
 
 ### convert オプション
 
-```true``` の時、本文を自動で段落タグで囲います。  
-デフォルトは ```true``` です。
+`true` の時、本文を自動で段落タグで囲います。  
+デフォルトは `true` です。
 
 変換前  
 ```html
@@ -171,24 +199,24 @@ ___
 |挿絵 | [/path/hanami_inu.png]<br>※「path」は環境に合わせて変更してください。 |![犬のイラスト（いらすとや）](./asset/hanami_inu.png?resize=93,100)<br>画像は[いらすとや](https://www.irasutoya.com)より。|
 
 ver.1.3 にて、タイトル部分もルビ変換に対応しました。  
- ```id="nvl-title"```、```id="nvl-subtitle"```、```id="nvl-section-title"``` を付与したHTMLタグで囲われたテキストが対象です。
+ `id="nvl-title"`、`id="nvl-subtitle"`、`id="nvl-section-title"` を付与したHTMLタグで囲われたテキストが対象です。
 
-これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを ```false``` にしてください。
+これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを `false` にしてください。
 
 ### useHtml オプション
 
-本テンプレートは、``` <div id="novel-body"></div>```　内にHTMLタグを配置することはあまり想定されていないため、```convert``` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。
+本テンプレートは、`<div id="novel-body"></div>` 内にHTMLタグを配置することはあまり想定されていないため、`convert` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。
 
-``` <div id="novel-body"></div>```　内にHTMLタグを記載する場合はこちらのパラメータを ```true``` にしてください。記法の変換のみを行い、段落タグの自動挿入を行わなくなります。
+`<div id="novel-body"></div>` 内にHTMLタグを記載する場合はこちらのパラメータを `true` にしてください。記法の変換のみを行い、段落タグの自動挿入を行わなくなります。
 
-※注意：```useHtml=true``` に設定すると、挿絵の記法は変換されなくなります。```<img>``` タグでの挿入をお願いいたします。
+※注意：`useHtml=true` に設定すると、挿絵の記法は変換されなくなります。`<img>` タグでの挿入をお願いいたします。
 
 ### useGoogleFont
 
 デフォルトでは、端末のプリインストールフォントを優先して使用し、Android 端末と判断できた場合のみ Google Font からフォントを追加します。  
 （※Android は端末により明朝体が入っていないため）
 
-自分で好みの Google Font を優先して適用したい場合は、下記の通りに設定することで、反映することができます。
+好みの Google Font で全ての端末の表示を統一したい場合は、下記の通りに設定することで、反映することができます。
 
 #### 1．Google Font の選択
 
@@ -197,7 +225,7 @@ Google Font の使い方は「Google Font 使い方」で検索してくださ�
 
 #### 2．Google Font の読み込み設定
 
-HTMLの ```</head>``` タグの直前に、Google Font の読み込み ```<link>``` を追加します。
+HTMLの `</head>` タグの直前に、Google Font の読み込み `<link>` を追加します。
 
 ```html
 <head>
@@ -214,9 +242,9 @@ HTMLの ```</head>``` タグの直前に、Google Font の読み込み ```<link>
 </head>
 ```
 
-#### ３．```font-family``` の設定
+#### ３．`font-family` の設定
 
-CSS ファイルを置いているフォルダに ```custom.css``` を作成し、下記の通りに記載します。  
+CSS ファイルを置いているフォルダに `custom.css` を作成し、下記の通りに記載します。  
 `font-family` に指定するフォント名は、使用するフォントに合わせて変更してください。
 
 ```css
@@ -234,9 +262,9 @@ CSS ファイルを置いているフォルダに ```custom.css``` を作成し�
 }
 ```
 
-#### ４.```custom.css``` の読み込み
+#### ４.`custom.css` の読み込み
 
-HTML の ```</head>``` タグの直前に、```custom.css``` の読み込みを追加します。
+HTML の `</head>` タグの直前に、`custom.css` の読み込みを追加します。
 
 ```html
 <head>
@@ -256,9 +284,9 @@ HTML の ```</head>``` タグの直前に、```custom.css``` の読み込みを�
 </head>
 ```
 
-#### ５.```useGoogleFont``` パラメータを有効にする
+#### ５.`useGoogleFont` パラメータを有効にする
 
-```SNViewerAppClass``` の読み込み時のオプションに ```useGoogleFont=true``` を設定する。
+`SNViewerAppClass` の読み込み時のオプションに `useGoogleFont=true` を設定する。
 
 ```js
 const viewerApp = new SNViewerAppClass(

@@ -1301,11 +1301,11 @@ input[type=radio] {
 
 /* スタイル */
 .snv-font-mincho {
-  font-family: "Noto Serif JP", "游明朝", "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
+  font-family: "BIZ UDMincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "游明朝", "Yu Mincho", YuMincho, "Noto Serif JP", HGS明朝E, メイリオ, Meiryo, serif;
 }
 
 .snv-font-gothic {
-  font-family: "Noto Sans JP", "游ゴシック", "Yu Gothic", YuGothic, "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important;
+  font-family: "BIZ UDGothic", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", "游ゴシック", "Yu Gothic", YuGothic, "Noto Sans JP", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important;
 }
 
 .snv-fontsize-small {
