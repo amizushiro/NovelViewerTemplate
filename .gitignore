@@ -1,3 +1,3 @@
 .DS_Store
 src/scss.sh
-src/css/snviewer.css.map
+*.css.map
