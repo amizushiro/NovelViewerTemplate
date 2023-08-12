@@ -570,10 +570,8 @@ class SNViewerAppClass {
     // ダッシュ変換
     convertText = convertText.replace(/(—){2,}/g, replacer);
     // ルビ変換
-    convertText = convertText.replace(/\|/g, "｜");
-    convertText = convertText.replace(/｜/g, '<ruby><rb>');
-    convertText = convertText.replace(/《/g, '</rb><rp>（</rp><rt>');
-    convertText = convertText.replace(/》/g, '</rt><rp>）</rp></ruby>');    
+    convertText = convertText.replace(/\|([^｜《》]+《[^｜《》]+》)/g, "｜$1");
+    convertText = convertText.replace(/｜([^｜《》]+)《([^｜《》]+)》/g, '<ruby><rb>$1</rb><rp>（</rp><rt>$2</rt><rp>）</rp></ruby>');
     
     return convertText;
   }
