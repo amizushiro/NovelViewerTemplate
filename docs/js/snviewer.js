@@ -541,9 +541,35 @@ class SNViewerAppClass {
    * @returns {string} 変換後のテキスト
    */
   convertNotation(convertText) {
+    
+    function replacer(match) {
+      let result = '<span class="snv-dash-rule">';
+      let i = 0;
+      const maxLen = match.length;
+      console.log('length:' + maxLen);
+      while (i < maxLen) {
+        result += '—';
+        i++;
+      }
+      return result + '</span>';
+    }
+
     // 記法変換
-    convertText = convertText.replace(/[―|−|–|―|－|ー|─]/g, '—');
-    convertText = convertText.replace(/(—+)/g, '<span class="'+ this.prefix + 'dash-rule">$1</span>');
+    // ハイフン→ダッシュ
+    convertText = convertText.replace(/(-){2,}/g, replacer);
+    // マイナス→ダッシュ
+    convertText = convertText.replace(/(−){2,}/g, replacer);
+    // ENダッシュ→ダッシュ
+    convertText = convertText.replace(/(–){2,}/g, replacer);
+    // 水平線→ダッシュ
+    convertText = convertText.replace(/(―){2,}/g, replacer);
+    // 罫線記号の横棒→ダッシュ
+    convertText = convertText.replace(/(─){2,}/g, replacer);
+    // 全角ハイフン→ダッシュ
+    convertText = convertText.replace(/(－){2,}/g, replacer);
+    // ダッシュ変換
+    convertText = convertText.replace(/(—){2,}/g, replacer);
+    // ルビ変換
     convertText = convertText.replace(/\|/g, "｜");
     convertText = convertText.replace(/｜/g, '<ruby><rb>');
     convertText = convertText.replace(/《/g, '</rb><rp>（</rp><rt>');
