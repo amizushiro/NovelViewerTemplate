@@ -18,6 +18,11 @@ body {
   overscroll-behavior-y: none;
 }
 
+#snv-app {
+  -webkit-text-size-adjust: 100%; /* 2 */
+  font-kerning: auto;
+}
+
 .snv-novel-title, .snv-novel-subtitle {
   font-weight: 600;
 }
@@ -114,6 +119,9 @@ body {
     max-width: 320px;
   }
 }
+.snv-ltr .snv-emphasis {
+  text-emphasis: filled dot;
+}
 
 .snv-rtl .snv-novel-title {
   margin: auto 2em auto 0.5em;
@@ -167,6 +175,21 @@ body {
   .snv-rtl .snv-novel-block > p > .dir-v {
     max-width: 320px;
   }
+}
+.snv-rtl .snv-novel-block > p > .text-combine {
+  -webkit-text-combine: horizontal;
+  -ms-text-combine-horizontal: all;
+  text-combine-upright: all;
+}
+.snv-rtl .snv-emphasis {
+  text-emphasis: filled sesame;
+}
+.snv-rtl .svn-text-orient {
+  letter-spacing: 0;
+  -moz-text-combine-upright: upright;
+  text-orientation: upright;
+  -moz-text-combine-upright: all;
+  text-combine-upright: all;
 }
 
 .snv-novel-header {
@@ -575,7 +598,7 @@ input[type=radio] {
 }
 
 .snv-radio-label-style.snv-style-normal {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 
 .snv-radio-label-style.snv-style-large {
@@ -1096,6 +1119,7 @@ input[type=radio] {
   -webkit-writing-mode: vertical-rl;
   -ms-writing-mode: tb-rl;
   writing-mode: vertical-rl;
+  font-feature-settings: "palt" 1;
   overflow-y: hidden;
   height: 100%;
   min-width: calc(100% - 17px);
@@ -1318,7 +1342,7 @@ input[type=radio] {
 }
 
 .snv-fontsize-normal {
-  font-size: 1.1rem;
+  font-size: 1.0625rem;
 }
 .snv-fontsize-normal .snv-dash-rule {
   letter-spacing: 0;
