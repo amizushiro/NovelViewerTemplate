@@ -222,7 +222,7 @@ ver.1.3 にて、タイトル部分もルビ変換に対応しました。
 ```
 
 圏点の種類や指定方法については、下記サイトを参考にしてください。  
-[text-emphasis - CSS: カスケーディングスタイルシート | MDN MDN Web Docs MDN logo Mozilla logo](https://developer.mozilla.org/ja/docs/Web/CSS/text-emphasis)
+[text-emphasis - CSS: カスケーディングスタイルシート | MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/CSS/text-emphasis)
 
 これらの機能を使わない、自分でHTMLタグを記述して整形する場合は、このオプションを `false` にしてください。
 
