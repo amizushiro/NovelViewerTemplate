@@ -20,7 +20,6 @@
 // 縦書き
 .snv-rtl {
   @include mix.writing-rtl;
-  font-feature-settings: "palt" 1;
   overflow-y: hidden;
   height: 100%;
   min-width: calc(100% - 17px);

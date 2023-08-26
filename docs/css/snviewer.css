@@ -1119,7 +1119,6 @@ input[type=radio] {
   -webkit-writing-mode: vertical-rl;
   -ms-writing-mode: tb-rl;
   writing-mode: vertical-rl;
-  font-feature-settings: "palt" 1;
   overflow-y: hidden;
   height: 100%;
   min-width: calc(100% - 17px);
