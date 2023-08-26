@@ -580,10 +580,10 @@ class SNViewerAppClass {
         return match;
       }
       else if (w > h) {
-        return '<img src="' + src + '" alt="' + alt + '" class="dir-w">';
+        return '<img src="' + src + '" alt="' + alt + '" class="dir-v" width="' + w + '" height="' + h + '">';
       }
       else if (h > w) {
-        return '<img src="' + src + '" alt="' + alt + '" class="dir-h">';
+        return '<img src="' + src + '" alt="' + alt + '" class="dir-h" width="' + w + '" height="' + h + '">';
       }
       else if(w === h) {
         return '<img src="' + src + '" alt="' + alt + '" width="' + w + '" height="' + h + '">';
@@ -614,7 +614,7 @@ class SNViewerAppClass {
     // 縦中横
     convertText = convertText.replace(/(.+?)［＃「(.+?)」は縦中横］/g, replaceTextOrientation);
     // 画像
-    convertText = convertText.replace(/［＃(.+?)（(.+?)、横([0-9]+?)×縦([0-9]+?)）入る］/g, replaceImage)
+    convertText = convertText.replace(/［＃(.+?)（(.+?)、横([0-9]+?)×縦([0-9]+?)）入る］/g, replaceImage);
 
     return convertText;
   }

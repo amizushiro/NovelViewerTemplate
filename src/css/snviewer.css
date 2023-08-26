@@ -108,6 +108,7 @@ body {
 @media screen and (max-width: 767px) {
   .snv-ltr .snv-novel-block > p > .dir-h {
     max-height: 454px;
+    height: auto;
   }
 }
 .snv-ltr .snv-novel-block > p > .dir-v {
@@ -116,7 +117,7 @@ body {
 }
 @media screen and (max-width: 767px) {
   .snv-ltr .snv-novel-block > p > .dir-v {
-    max-width: 320px;
+    max-width: 100%;
   }
 }
 .snv-ltr .snv-emphasis {
@@ -164,7 +165,7 @@ body {
 }
 @media screen and (max-width: 767px) {
   .snv-rtl .snv-novel-block > p > .dir-h {
-    max-height: 454px;
+    max-height: 100%;
   }
 }
 .snv-rtl .snv-novel-block > p > .dir-v {
