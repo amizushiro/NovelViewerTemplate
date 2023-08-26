@@ -199,8 +199,8 @@ ___
 | 記法名 | 記法 | 変換後 |
 |---------|------|---------|
 |ルビ |｜漢字《かんじ》 |<ruby>漢字<rp>（</rp><rt>かんじ</rt><rp>）</rp></ruby> |
-|圏点（傍点）|カクヨム記法：《《圏点》》<br>青空文庫記法：圏点［＃「圏点」は傍点］| ![横書き圏点](./asset/emphasis_ltr.png) ![縦書圏点](./asset/emphasis_rtl.png) |
-|縦中横|青空文庫記法：！？［＃「！？」は縦中横］| ![縦中横表示サンプル](./asset/text-orientation.png) |
+|圏点（傍点）|カクヨム記法：<br>《《圏点》》<br><br>青空文庫記法：<br>圏点［＃「圏点」は傍点］| ![横書き圏点](./asset/emphasis_ltr.png) ![縦書圏点](./asset/emphasis_rtl.png) |
+|縦中横|青空文庫記法：<br>！？［＃「！？」は縦中横］| ![縦中横表示サンプル](./asset/text-orientation.png) |
 |挿絵 | ノベルアップ＋記法：<br>[/path/hanami_inu.png]<br><br>青空文庫記法：<br>［＃altの説明（/path/hanami_inu.png、横93×縦100）入る］<br><br>※「path」は環境に合わせて変更してください。 |![犬のイラスト（いらすとや）](./asset/hanami_inu.png?resize=93,100)<br>画像は[いらすとや](https://www.irasutoya.com)より。|
 
 ver.1.3 にて、タイトル部分もルビ変換に対応しました。  
