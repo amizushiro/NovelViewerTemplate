@@ -11,12 +11,10 @@ body {
   overscroll-behavior-y: none; 
 }
 
-#app {
-  letter-spacing: 1.5px;
+#snv-app {
+  // letter-spacing: 1.5px;
   -webkit-text-size-adjust: 100%; /* 2 */
-  font-feature-settings: "palt" 1;
   font-kerning: auto;
-
 }
 
 .snv-novel-title, .snv-novel-subtitle {
@@ -52,15 +50,12 @@ body {
     letter-spacing: .1em;
     line-height: 2;
     margin: 0;
-
-    & rt {
-      font-size: .5em;
-    }
   }
 }
 .snv-indent {
   text-indent: 1em;
 }
+
 /* 表示方向 */
 // 横書き
 .snv-ltr {
@@ -110,6 +105,7 @@ body {
       width: auto;
       @include mix.mq('sp') {
         max-height: 454px;
+        height: auto;
       }
     }
   
@@ -117,9 +113,12 @@ body {
       height: auto;
       max-width: 728px;
       @include mix.mq('sp') {
-        max-width: 320px;
+        max-width: 100%;
       }
     }
+  }
+  .snv-emphasis {
+    text-emphasis: filled dot;
   }
 }
 // 縦書き
@@ -168,7 +167,7 @@ body {
       max-height: 600px;
       width: auto;
       @include mix.mq('sp') {
-        max-height: 454px;
+        max-height: 100%;
       }
     }
   
@@ -185,5 +184,15 @@ body {
       -ms-text-combine-horizontal: all;
       text-combine-upright: all;
     }
+  }
+  .snv-emphasis {
+    text-emphasis: filled sesame;
+  }
+  .svn-text-orient {
+    letter-spacing: 0;
+    -moz-text-combine-upright: upright;
+    text-orientation: upright;
+    -moz-text-combine-upright: all;
+    text-combine-upright: all;
   }
 }

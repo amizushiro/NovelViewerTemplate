@@ -542,7 +542,7 @@ class SNViewerAppClass {
    */
   convertNotation(convertText) {
     
-    function replacer(match) {
+    function replaceDash(match) {
       let result = '<span class="snv-dash-rule">';
       let i = 0;
       const maxLen = match.length;
@@ -554,27 +554,68 @@ class SNViewerAppClass {
       return result + '</span>';
     }
 
+    function replaceEmphases(match, t1, t2) {
+      const index = t1.lastIndexOf(t2);
+      if (index !== -1 && (index + t2.length) === t1.length) {
+        let result = t1.slice(0, index);
+        return result += '<span class="snv-emphasis">'+ t2 +'</span>';
+      }
+      return match;
+    }
+
+    function replaceTextOrientation(match, t1, t2) {
+      const index = t1.lastIndexOf(t2);
+      if (index !== -1 && (index + t2.length) === t1.length) {
+        let result = t1.slice(0, index);
+        return result += '<span class="svn-text-orient">' + t2 + '</span>'
+      }
+      return match;
+    }
+
+    function replaceImage(match, alt, src, w, h) {
+      w = parseInt(w, 10);
+      h = parseInt(h, 10);
+
+      if (!src) {
+        return match;
+      }
+      else if (w > h) {
+        return '<img src="' + src + '" alt="' + alt + '" class="dir-w">';
+      }
+      else if (h > w) {
+        return '<img src="' + src + '" alt="' + alt + '" class="dir-h">';
+      }
+      else if(w === h) {
+        return '<img src="' + src + '" alt="' + alt + '" width="' + w + '" height="' + h + '">';
+      }
+      return match;
+    }
+
     // 記法変換
     // ハイフン→ダッシュ
-    convertText = convertText.replace(/(-){2,}/g, replacer);
+    convertText = convertText.replace(/(-){2,}/g, replaceDash);
     // マイナス→ダッシュ
-    convertText = convertText.replace(/(−){2,}/g, replacer);
+    convertText = convertText.replace(/(−){2,}/g, replaceDash);
     // ENダッシュ→ダッシュ
-    convertText = convertText.replace(/(–){2,}/g, replacer);
+    convertText = convertText.replace(/(–){2,}/g, replaceDash);
     // 水平線→ダッシュ
-    convertText = convertText.replace(/(―){2,}/g, replacer);
+    convertText = convertText.replace(/(―){2,}/g, replaceDash);
     // 罫線記号の横棒→ダッシュ
-    convertText = convertText.replace(/(─){2,}/g, replacer);
+    convertText = convertText.replace(/(─){2,}/g, replaceDash);
     // 全角ハイフン→ダッシュ
-    convertText = convertText.replace(/(－){2,}/g, replacer);
+    convertText = convertText.replace(/(－){2,}/g, replaceDash);
     // ダッシュ変換
-    convertText = convertText.replace(/(—){2,}/g, replacer);
+    convertText = convertText.replace(/(—){2,}/g, replaceDash);
     // ルビ変換
-    convertText = convertText.replace(/\|/g, "｜");
-    convertText = convertText.replace(/｜/g, '<ruby><rb>');
-    convertText = convertText.replace(/《/g, '</rb><rp>（</rp><rt>');
-    convertText = convertText.replace(/》/g, '</rt><rp>）</rp></ruby>');    
-    
+    convertText = convertText.replace(/[\|｜](.+?)《(.+?)》/g, '<ruby><rb>$1</rb><rp>（</rp><rt>$2</rt><rp>）</rp></ruby>');
+    // 圏点変換
+    convertText = convertText.replace(/《《(.+?)》》/g, '<span class="snv-emphasis">$1</span>');
+    convertText = convertText.replace(/(.+?)［＃「(.+?)」に傍点］/g, replaceEmphases)
+    // 縦中横
+    convertText = convertText.replace(/(.+?)［＃「(.+?)」は縦中横］/g, replaceTextOrientation);
+    // 画像
+    convertText = convertText.replace(/［＃(.+?)（(.+?)、横([0-9]+?)×縦([0-9]+?)）入る］/g, replaceImage)
+
     return convertText;
   }
 
