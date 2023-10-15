@@ -124,6 +124,12 @@ body {
   text-emphasis: filled dot;
 }
 
+.snv-rtl {
+  scrollbar-width: auto;
+}
+.snv-rtl::-webkit-scrollbar {
+  height: 10px;
+}
 .snv-rtl .snv-novel-title {
   margin: auto 2em auto 0.5em;
   height: 80%;
@@ -869,7 +875,7 @@ input[type=radio] {
   -ms-writing-mode: lr-tb;
   writing-mode: horizontal-tb;
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
   height: 44px;
   width: 60px;
 }
@@ -1190,6 +1196,16 @@ input[type=radio] {
   color: #898989;
 }
 
+.snv-rtl.snv-paper-white {
+  scrollbar-color: #666 #eee;
+}
+.snv-rtl.snv-paper-white::-webkit-scrollbar-track {
+  background-color: #eee;
+}
+.snv-rtl.snv-paper-white::-webkit-scrollbar-thumb {
+  background: #666;
+}
+
 .snv-paper-kinari {
   background-color: #f7efe3;
   color: #444;
@@ -1254,6 +1270,16 @@ input[type=radio] {
 }
 .snv-paper-kinari .snv-index-list > li > a:visited {
   color: #898989;
+}
+
+.snv-rtl.snv-paper-kinari {
+  scrollbar-color: #757472 #dad3cd;
+}
+.snv-rtl.snv-paper-kinari::-webkit-scrollbar-track {
+  background-color: #dad3cd;
+}
+.snv-rtl.snv-paper-kinari::-webkit-scrollbar-thumb {
+  background: #757472;
 }
 
 .snv-paper-dark {
@@ -1321,6 +1347,16 @@ input[type=radio] {
 }
 .snv-paper-dark .snv-index-list > li > a:visited {
   color: #666;
+}
+
+.snv-rtl.snv-paper-dark {
+  scrollbar-color: #090909 #4d4d4d;
+}
+.snv-rtl.snv-paper-dark::-webkit-scrollbar-track {
+  background-color: #4d4d4d;
+}
+.snv-rtl.snv-paper-dark::-webkit-scrollbar-thumb {
+  background: #090909;
 }
 
 /* スタイル */

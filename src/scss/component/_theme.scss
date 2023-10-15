@@ -105,6 +105,16 @@
     }
   }
 }
+.snv-rtl.snv-paper-white {
+  scrollbar-color: #666 #eee;
+  &::-webkit-scrollbar-track {
+    background-color: #eee;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #666;
+  }
+}
+
 // 生成り
 .snv-paper-kinari {
   @include mix.theme-kinari;
@@ -189,6 +199,16 @@
     }
   }
 }
+.snv-rtl.snv-paper-kinari {
+  scrollbar-color: #757472 #dad3cd;
+  &::-webkit-scrollbar-track {
+    background-color: #dad3cd;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #757472
+  }
+}
+
 // 黒
 .snv-paper-dark {
   @include mix.theme-dark;
@@ -268,6 +288,15 @@
         }
       }
     }
+  }
+}
+.snv-rtl.snv-paper-dark {
+  scrollbar-color: darken(var.$darkBgColor, 10) lighten(var.$darkBgColor, 17);
+  &::-webkit-scrollbar-track {
+    background-color: lighten(var.$darkBgColor, 17);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: darken(var.$darkBgColor, 10);
   }
 }
 

@@ -12,7 +12,6 @@ body {
 }
 
 #snv-app {
-  // letter-spacing: 1.5px;
   -webkit-text-size-adjust: 100%; /* 2 */
   font-kerning: auto;
 }
@@ -123,6 +122,13 @@ body {
 }
 // 縦書き
 .snv-rtl {
+  scrollbar-width: auto;
+  // スクロールバーの高さ確保
+  &::-webkit-scrollbar {
+    // width: 5px;
+    height: 10px;
+  }
+
   .snv-novel-title {
     margin: auto 2em auto .5em;
     height: 80%;
