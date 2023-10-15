@@ -353,7 +353,7 @@ input[type=radio] {
   .snv-novel-index-toggle-label {
     @include mix.writing-ltr;
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     height: 44px;
     @include mix.mq('sp') {
       height: 7%;
