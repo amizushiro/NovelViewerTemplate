@@ -58,14 +58,6 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 
 ```html
 <div id="snv-app">
-  <!-- ローディング画面 -->
-  <div id="snv-loading" class="snv-loader-wrapper">
-    <div class="snv-loading">
-      <span>Loading...</span>
-    </div>
-  </div>
-  <!-- /ローディング画面 -->
-
   <h1 id="nvl-title">
     シリーズタイトル
     <span id="nvl-subtitle">章タイトル（任意）</span>
@@ -76,6 +68,14 @@ This software is released under the MIT License, see [LICENSE](/LICENSE).
 ここに書きます。
 書き方の詳細は convert オプションの説明をご覧ください。
   </div>
+
+  <!-- ローディング画面 -->
+  <div id="snv-loading" class="snv-loader-wrapper">
+    <div class="snv-loading">
+      <span>Loading...</span>
+    </div>
+  </div>
+  <!-- /ローディング画面 -->
 </div>
 ```
 
@@ -228,11 +228,13 @@ ver.1.3 にて、タイトル部分もルビ変換に対応しました。
 
 ### useHtml オプション
 
-本テンプレートは、`<div id="novel-body"></div>` 内に複雑なHTMLタグを配置することはあまり想定されていないため、`convert` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。
+本テンプレートは、`<div id="novel-body"></div>` 内に複雑なHTMLタグを配置することはあまり想定されていないため、`convert` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。  
+原因としては、自動で本文に段落タグを挿入しているためです。
 
 `<div id="novel-body"></div>` 内にHTMLタグを記載するが、記法の変換は使用したい場合はこちらのパラメータを `true` にしてください。記法の変換のみを行い、段落タグの自動挿入を行わなくなります。
 
-※注意：`useHtml=true` に設定すると、ノベルアップ＋挿絵の記法は変換されなくなります。青空文庫記法か`<img>` タグでの挿入をお願いいたします。
+~~※注意：`useHtml=true` に設定すると、ノベルアップ＋挿絵の記法は変換されなくなります。青空文庫記法か`<img>` タグでの挿入をお願いいたします。~~  
+2025/01/11 更新版から、`useHTML=true`でも、ノベルアップ＋挿絵の記法が変換できるようになりました。
 
 ### useGoogleFont
 
@@ -345,10 +347,11 @@ const viewerApp = new SNViewerAppClass(
 
 シェアボタン押下後
 
-navigator.share()が使用可能な場合は、ブラウザごとの共有画面が表示されます。（画像は Microsoft Edge の場合）  
-![](./asset/share_sample1.png)
+~~Share API が使用可能な場合は、ブラウザごとの共有画面が表示されます。（画像は Microsoft Edge の場合）~~  
+※iOSやAndroid端末で Share API が正常に動作しない不具合が報告されているため、現在 Share API 機能使用版を無効にしています。  
+<!-- ![](./asset/share_sample1.png) -->
 
-navigator.share()が使用不可な場合は、シェア用のテキストコピー欄が表示されます。  
+Share API が使用不可な場合は、シェア用のテキストコピー欄が表示されます。  
 ![](./asset/share_sample2.png)
 
 ### indexList オプション
@@ -393,5 +396,7 @@ ___
 不具合、使い方でわからないところなど、  
 何かございましたら、下記連絡先よりご連絡ください。
 
-* [お問合せ](https://sengenzakura.com/contact)
-* [Mastodon（@amizushiro@sengenzakura.com）](https://mstdn.sengenzakura.com)
+* [お問合せ](https://xfolio.jp/portfolio/sengenzakura/free/342805)
+* [Mastodon（@amizushiro@sengenzakura.com）](https://mstdn.sengenzakura.com/@amizushiro)
+* [Bluesky（@sengenzakura.com）](https://bsky.app/profile/sengenzakura.com)
+

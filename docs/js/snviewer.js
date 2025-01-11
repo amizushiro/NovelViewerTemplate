@@ -356,7 +356,9 @@ class SNViewerAppClass {
       // シェアテキスト
       const shareText = shareTitle + shareSubTitle + sectiontitle
 
-      if (!navigator.canShare) {
+      // 2025.01.11 Share API がスマホ端末で適切に動作しなくなっているとのことで、一時的にコピー用フォームが出るものだけに統一する。
+      // 参考URL：https://techblog.kayac.com/web-share-api-workaround
+      // if (!navigator.canShare) {
         // navigator.share() が使用不可
         const cpTextWrap = this.createDivEl('shareArea', ['shareTextWrap', 'hide']);
         const description = document.createElement('p')
@@ -395,19 +397,19 @@ class SNViewerAppClass {
             cpTextWrap.classList.add('snv-hide');
           }
         });
-      } else {
-        // navigator.share() が使用可能
-        btnEl.addEventListener('click', async () => {
-        try {
-            await navigator.share({
-                  text: shareTitle + shareSubTitle + sectiontitle,
-                  url: shareUrl
-              })
-          } catch(err) {
-            console.log(err)
-          }
-        });
-      }
+      // } else {
+      //   // navigator.share() が使用可能
+      //   btnEl.addEventListener('click', async () => {
+      //   try {
+      //       await navigator.share({
+      //             text: shareTitle + shareSubTitle + sectiontitle,
+      //             url: shareUrl
+      //         })
+      //     } catch(err) {
+      //       console.log(err)
+      //     }
+      //   });
+      // }
 
       footerEl.appendChild(snsEl);
     }
@@ -490,41 +492,44 @@ class SNViewerAppClass {
    */
   convertNovelText(target) {
     let prevText = target.innerHTML;
-
-    // 記法変換
-    prevText = this.convertNotation(prevText);
-
-    if (this.useHtml) {
-      // HTML使用時はインデントのみ実行
-      target.innerHTML = prevText;
-      if (this.indent) {
-        this.convertIndent(target);
-      }
-      return false;
-    }
-
     // 本文を一行ごとに分割・配列化
     const lines = prevText.split(/\r\n|\n/);
 
+    const imageRegex = /\[[^\]]+\]/;
     let newText = "";
     let imgidx = 1;
+
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
 
       // 挿絵段落
-      if (line.includes('[')) {
+      if (imageRegex.test(line)) {
         newText += "<p id=\"" + this.prefix + "sashie" + imgidx + "\"></p>";
         imgidx++;
       }
       else {
-        // 文章段落
-        if (this.indent) {
+        // 記法変換
+        line = this.convertNotation(line);
+
+        // インデント処理（HTMLを使用しない時はここで処理）
+        if (this.indent && !this.useHtml) {
           line = this.addIndent(line);
         }
-        newText += "<p>" + line + "</p>";
+        // HTMLを使う場合は、p要素でテキストを囲わない
+        if (this.useHtml) {
+          newText += line;
+        }
+        else {
+          newText += "<p>" + line + "</p>";
+        }
       }
     }
     target.innerHTML = newText;
+    
+    // HTMLを使う場合のインデント処理は、HTMLタグの処理の関係で記法変換完了後のここで一括で行う
+    if (this.indent && this.useHtml) {
+      this.convertIndent(target);
+    }
 
     // 画像読み込み
     let imagesUri = this.getImagesUri(lines);
@@ -536,23 +541,70 @@ class SNViewerAppClass {
   }
 
   /**
+   * 変換方法の振り分け
+   * @param {string} line 本文を改行分割した1行分のテキスト
+   * @returns {string} 変換後のテキスト
+   */
+  convertNotation(line) {
+    const aozoraRegex = /［＃[^］]+］/
+    // 記法変換
+    if (aozoraRegex.test(line)) {
+      // 青空文庫記法を変換
+      return this.convertAozoraBunkoNotation(line);
+    }
+    else {
+      // それ以外の記法を変換
+      return this.convertOrgNotation(line);
+    }   
+  }
+
+  /**
    * 記法の変換（画像以外）
    * @param {text} convertText 記法変換したいテキスト
    * @returns {string} 変換後のテキスト
    */
-  convertNotation(convertText) {
+  convertOrgNotation(convertText) {
     
     function replaceDash(match) {
       let result = '<span class="snv-dash-rule">';
       let i = 0;
       const maxLen = match.length;
-      console.log('length:' + maxLen);
       while (i < maxLen) {
         result += '—';
         i++;
       }
       return result + '</span>';
     }
+    
+    // 記法変換
+    // ハイフン→ダッシュ
+    convertText = convertText.replace(/(-){2,}/g, replaceDash);
+    // マイナス→ダッシュ
+    convertText = convertText.replace(/(−){2,}/g, replaceDash);
+    // ENダッシュ→ダッシュ
+    convertText = convertText.replace(/(–){2,}/g, replaceDash);
+    // 水平線→ダッシュ
+    convertText = convertText.replace(/(―){2,}/g, replaceDash);
+    // 罫線記号の横棒→ダッシュ
+    convertText = convertText.replace(/(─){2,}/g, replaceDash);
+    // 全角ハイフン→ダッシュ
+    convertText = convertText.replace(/(－){2,}/g, replaceDash);
+    // ダッシュ変換
+    convertText = convertText.replace(/(—){2,}/g, replaceDash);
+    // ルビ変換
+    convertText = convertText.replace(/[\|｜](.+?)《(.+?)》/g, '<ruby><rb>$1</rb><rp>（</rp><rt>$2</rt><rp>）</rp></ruby>');
+    // 圏点変換
+    convertText = convertText.replace(/《《(.+?)》》/g, '<span class="snv-emphasis">$1</span>');
+
+    return convertText;
+  }
+
+  /**
+   * 記法の変換（青空文庫記法オンリー）
+   * @param {text} convertText 記法変換したいテキスト
+   * @returns {string} 変換後のテキスト
+  */
+  convertAozoraBunkoNotation(convertText) {
 
     function replaceEmphases(match, t1, t2) {
       const index = t1.lastIndexOf(t2);
@@ -591,30 +643,12 @@ class SNViewerAppClass {
       return match;
     }
 
-    // 記法変換
-    // ハイフン→ダッシュ
-    convertText = convertText.replace(/(-){2,}/g, replaceDash);
-    // マイナス→ダッシュ
-    convertText = convertText.replace(/(−){2,}/g, replaceDash);
-    // ENダッシュ→ダッシュ
-    convertText = convertText.replace(/(–){2,}/g, replaceDash);
-    // 水平線→ダッシュ
-    convertText = convertText.replace(/(―){2,}/g, replaceDash);
-    // 罫線記号の横棒→ダッシュ
-    convertText = convertText.replace(/(─){2,}/g, replaceDash);
-    // 全角ハイフン→ダッシュ
-    convertText = convertText.replace(/(－){2,}/g, replaceDash);
-    // ダッシュ変換
-    convertText = convertText.replace(/(—){2,}/g, replaceDash);
-    // ルビ変換
-    convertText = convertText.replace(/[\|｜](.+?)《(.+?)》/g, '<ruby><rb>$1</rb><rp>（</rp><rt>$2</rt><rp>）</rp></ruby>');
-    // 圏点変換
-    convertText = convertText.replace(/《《(.+?)》》/g, '<span class="snv-emphasis">$1</span>');
+    // 圏点
     convertText = convertText.replace(/(.+?)［＃「(.+?)」に傍点］/g, replaceEmphases)
     // 縦中横
     convertText = convertText.replace(/(.+?)［＃「(.+?)」は縦中横］/g, replaceTextOrientation);
     // 画像
-    convertText = convertText.replace(/［＃(.+?)（(.+?)、横([0-9]+?)×縦([0-9]+?)）入る］/g, replaceImage);
+    convertText = convertText.replace(/［＃(.*?)（(.+?)、横([0-9]+?)×縦([0-9]+?)）入る］/g, replaceImage);
 
     return convertText;
   }
@@ -732,8 +766,17 @@ class SNViewerAppClass {
     let imagesUri = new Array();
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
-      if (line.includes('[')) {
-        imagesUri.push(line.replace(/\[|\]/g, ''));
+      const matchUrls = line.match(/\[([^\]]+)\]/);
+      if (matchUrls) {
+        const uris = matchUrls[1];
+        if (Array.isArray(uris)) {
+          for (let j = 0; j < uris.length; j++) {
+            imagesUri.push(uris[j]);
+          }
+        }
+        else {
+          imagesUri.push(uris);
+        }
       }
     }
     return imagesUri;
