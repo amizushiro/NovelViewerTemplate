@@ -228,7 +228,8 @@ ver.1.3 にて、タイトル部分もルビ変換に対応しました。
 
 ### useHtml オプション
 
-本テンプレートは、`<div id="novel-body"></div>` 内に複雑なHTMLタグを配置することはあまり想定されていないため、`convert` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。  
+本テンプレートは、`<div id="novel-body"></div>` 内に複雑なHTMLタグを配置することはあまり想定されていないため、`convert` オプションを使用する時に本文にHTMLタグがあると、不具合が起こる可能性があります。
+
 原因としては、自動で本文に段落タグを挿入しているためです。
 
 `<div id="novel-body"></div>` 内にHTMLタグを記載するが、記法の変換は使用したい場合はこちらのパラメータを `true` にしてください。記法の変換のみを行い、段落タグの自動挿入を行わなくなります。
@@ -347,11 +348,11 @@ const viewerApp = new SNViewerAppClass(
 
 シェアボタン押下後
 
-~~Share API が使用可能な場合は、ブラウザごとの共有画面が表示されます。（画像は Microsoft Edge の場合）~~  
-※iOSやAndroid端末で Share API が正常に動作しない不具合が報告されているため、現在 Share API 機能使用版を無効にしています。  
+~~Web Share API が使用可能な場合は、ブラウザごとの共有画面が表示されます。（画像は Microsoft Edge の場合）~~  
+※iOSやAndroid端末で [Web Share API が正常に動作しない不具合が報告されている](https://techblog.kayac.com/web-share-api-workaround)ため、現在 Web Share API 機能使用版を無効にしています。  
 <!-- ![](./asset/share_sample1.png) -->
 
-Share API が使用不可な場合は、シェア用のテキストコピー欄が表示されます。  
+Web Share API が使用不可な場合は、シェア用のテキストコピー欄が表示されます。  
 ![](./asset/share_sample2.png)
 
 ### indexList オプション
