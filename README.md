@@ -435,7 +435,6 @@ ___
 不具合、使い方でわからないところなど、  
 何かございましたら、下記連絡先よりご連絡ください。
 
-* [お問合せ](https://xfolio.jp/portfolio/sengenzakura/free/342805)
-* [Mastodon（@amizushiro@sengenzakura.com）](https://mstdn.sengenzakura.com/@amizushiro)
+* [お問合せ](https://www.sengenzakura.com/contact/)
 * [Bluesky（@sengenzakura.com）](https://bsky.app/profile/sengenzakura.com)
 

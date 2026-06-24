@@ -541,21 +541,16 @@ class SNViewerAppClass {
   }
 
   /**
-   * 変換方法の振り分け
+   * 変換
    * @param {string} line 本文を改行分割した1行分のテキスト
    * @returns {string} 変換後のテキスト
    */
   convertNotation(line) {
-    const aozoraRegex = /［＃[^］]+］/
     // 記法変換
-    if (aozoraRegex.test(line)) {
-      // 青空文庫記法を変換
-      return this.convertAozoraBunkoNotation(line);
-    }
-    else {
-      // それ以外の記法を変換
-      return this.convertOrgNotation(line);
-    }   
+    // 青空文庫記法を変換
+    const convertText = this.convertAozoraBunkoNotation(line);
+    // それ以外の記法を変換
+    return this.convertOrgNotation(convertText);
   }
 
   /**
@@ -644,9 +639,9 @@ class SNViewerAppClass {
     }
 
     // 圏点
-    convertText = convertText.replace(/(.+?)［＃「(.+?)」に傍点］/g, replaceEmphases)
+    convertText = convertText.replace(/(.+?)［＃「([^」]+?)」に傍点］/g, replaceEmphases)
     // 縦中横
-    convertText = convertText.replace(/(.+?)［＃「(.+?)」は縦中横］/g, replaceTextOrientation);
+    convertText = convertText.replace(/(.+?)［＃「([^」]+?)」は縦中横］/g, replaceTextOrientation);
     // 画像
     convertText = convertText.replace(/［＃(.*?)（(.+?)、横([0-9]+?)×縦([0-9]+?)）入る］/g, replaceImage);
 
